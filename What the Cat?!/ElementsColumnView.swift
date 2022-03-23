@@ -10,39 +10,44 @@ import SwiftUI
 
 struct ElementsColumn: View {
     let size: CGFloat = 60.0
-    @State var isHidden = true
+    @State var isHidden = Array(repeating: true, count: 6)
     @State var elementSelected = -1
-    @State var isMoving = false
-    @State var pos = CGPoint()
-    //    @Binding var pos: CGPoint
-//    @Binding var cat: Image
-//    @State var negative: Bool
+    @State var isMoving = Array(repeating: false, count: 6)
+    //    @State var initialPos = CGPoint.zero
+    @State var initialPos = CGPoint(x: -300, y: 50)
+    @Binding var pos: CGPoint
+    //    @Binding var cat: Image
+    @State var negative: Bool
     @State var position = CGPoint()
     
     var body: some View {
-        VStack(spacing: 25) {
+        VStack(spacing: 30){
             ForEach((0..<6), id: \.self) {itemSelected in
                 GeometryReader { geometry in
                     Button {
                         elementSelected = itemSelected
                         
-                        if !isMoving {
-                            isMoving = true
+                        if !isMoving[itemSelected] {
+                            isMoving[itemSelected] = true
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
-                                
+                                if negative {
+                                    initialPos = CGPoint(x: -300, y: pos.y)
+                                } else {
+                                    initialPos = CGPoint(x: 300, y: pos.y)
+                                }
                             }
                         } else {
-                            position.x = geometry.frame(in: .local).midX
-                            position.y = geometry.frame(in: .local).midY
-                            isMoving = false
+                            initialPos.x = geometry.frame(in: .local).midX
+                            initialPos.y = geometry.frame(in: .local).midY
+                            isMoving[itemSelected] = false
                         }
                         
-                        if isHidden {
-                            isHidden = false
+                        if isHidden[itemSelected] {
+                            isHidden[itemSelected] = false
                         } else {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4){
-                                isHidden = true
+                                isHidden[itemSelected] = true
                             }
                         }
                         
@@ -54,17 +59,17 @@ struct ElementsColumn: View {
                                     .frame(width: 45, height: 45)
                                     .scaledToFit()
                                 
-                                if !isHidden && itemSelected == elementSelected {
+                                if !isHidden[itemSelected] && itemSelected == elementSelected {
                                     Button {
-                                        isMoving = false
+                                        isMoving[itemSelected] = false
                                     } label: {
                                         Image("sword")
                                             .resizable()
                                             .frame(width: 45, height: 45)
                                             .scaledToFit()
                                     }
-                                    .position(position)
-                                    .animation(.linear, value: position)
+                                    .position(initialPos)
+                                    .animation(.linear, value: initialPos)
                                 }
                             }
                             
@@ -74,6 +79,10 @@ struct ElementsColumn: View {
                                 .scaledToFit()
                         }
                         .frame(width: size, height: size)
+                    }
+                    .onAppear {
+                        initialPos.x = geometry.frame(in: .local).midX
+                        initialPos.y = geometry.frame(in: .local).midY
                     }
                 }
             }

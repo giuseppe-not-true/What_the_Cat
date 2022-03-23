@@ -12,13 +12,14 @@ struct ContentView: View {
     @State var posElement = CGPoint()
 //    @State var cat = Image("catto")
     let scene = BoxScene()
+    @State var posCat = CGPoint()
     
     var body: some View {
         
         GeometryReader { geometry in
             
             HStack {
-                ElementsColumn()
+                ElementsColumn(pos: $posCat, negative: false)
                     .padding(.trailing)
                     .zIndex(1)
                 
@@ -28,8 +29,11 @@ struct ContentView: View {
                     
                     GeometryReader { box in
                         SpriteView(scene: scene, options: [.allowsTransparency])
-                                .frame(width: 300, height: 250, alignment: .center)
+                                .frame(width: 300, height: 200, alignment: .center)
                                 .position(x: box.frame(in: .local).midX, y: box.frame(in: .local).midY)
+                                .onAppear {
+                                    posCat.y = box.frame(in: .local).midY
+                                }
                             
 //                                Image("box open")
 //                                    .resizable()
@@ -56,12 +60,13 @@ struct ContentView: View {
                 }
                 
                 
-                ElementsColumn()
+                ElementsColumn(pos: $posCat, negative: true)
                     .padding(.leading)
                     .zIndex(1)
             }
             
         }
+        .coordinateSpace(name: "scene")
         .background(Color("WoodBrown"))
     }
 }

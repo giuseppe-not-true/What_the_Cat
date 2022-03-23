@@ -21,13 +21,13 @@ class BoxScene: SKScene {
     var box = Box(imageNamed: "box open")
     
     override func didMove(to view: SKView) {
-        self.size = CGSize(width: 300, height: 250)
+        self.size = CGSize(width: 300, height: 200)
         self.backgroundColor = .clear
         
         box.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2)
         box.zPosition = 10
         box.size.width = 350.0
-        box.size.height = 250.0
+        box.size.height = 200.0
         
         cat.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2)
         cat.zPosition = 11

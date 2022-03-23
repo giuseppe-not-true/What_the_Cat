@@ -6,31 +6,42 @@
 //
 
 import SwiftUI
+import SpriteKit
 
-struct ContentView: View {    
+struct ContentView: View {
+    @State var posElement = CGPoint()
+//    @State var cat = Image("catto")
+    let scene = BoxScene()
+    
     var body: some View {
+        
         GeometryReader { geometry in
             
             HStack {
                 ElementsColumn()
                     .padding(.trailing)
-                
-                Spacer()
+                    .zIndex(1)
                 
                 VStack {
                     TopLayout()
+                        .padding([.top, .bottom])
                     
-                        ZStack {
-                            Image("box open")
-                                .resizable()
-                                .scaledToFit()
-
-                            Image("catto")
-                                .resizable()
-                                .frame(width: 100, height: 100, alignment: .center)
-                                .scaledToFit()
-                                .position(x: 300, y: 50)
-                        }
+                    GeometryReader { box in
+                        SpriteView(scene: scene, options: [.allowsTransparency])
+                                .frame(width: 300, height: 250, alignment: .center)
+                                .position(x: box.frame(in: .local).midX, y: box.frame(in: .local).midY)
+                            
+//                                Image("box open")
+//                                    .resizable()
+//                                    .scaledToFit()
+//
+//                                cat
+//                                    .resizable()
+//                                    .frame(width: 100, height: 100, alignment: .center)
+//                                    .scaledToFit()
+//                                    .position(x: box.frame(in: .local).midX, y: box.frame(in: .local).midY - 55)
+                        
+                    }
                         
                     Button{
                     } label: {
@@ -44,10 +55,10 @@ struct ContentView: View {
                     }
                 }
                 
-                Spacer()
                 
                 ElementsColumn()
                     .padding(.leading)
+                    .zIndex(1)
             }
             
         }

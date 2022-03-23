@@ -14,6 +14,7 @@
 		238228E527EA1DE100AA3987 /* Minecraft.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 238228E427EA1DE100AA3987 /* Minecraft.ttf */; };
 		238228E727EA263600AA3987 /* ElementsColumnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238228E627EA263600AA3987 /* ElementsColumnView.swift */; };
 		238228E927EA278000AA3987 /* TopLayoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238228E827EA278000AA3987 /* TopLayoutView.swift */; };
+		2382F10C27EB28BF001DC415 /* BoxScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2382F10B27EB28BF001DC415 /* BoxScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		238228E427EA1DE100AA3987 /* Minecraft.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Minecraft.ttf; sourceTree = "<group>"; };
 		238228E627EA263600AA3987 /* ElementsColumnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementsColumnView.swift; sourceTree = "<group>"; };
 		238228E827EA278000AA3987 /* TopLayoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopLayoutView.swift; sourceTree = "<group>"; };
+		2382F10B27EB28BF001DC415 /* BoxScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				238228DD27EA181400AA3987 /* What-the-Cat---Info.plist */,
 				238228CA27EA13B500AA3987 /* What_the_Cat__App.swift */,
 				238228CC27EA13B500AA3987 /* ContentView.swift */,
+				2382F10B27EB28BF001DC415 /* BoxScene.swift */,
 				238228E827EA278000AA3987 /* TopLayoutView.swift */,
 				238228E627EA263600AA3987 /* ElementsColumnView.swift */,
 				238228D827EA177C00AA3987 /* Fonts */,
@@ -157,6 +160,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2382F10C27EB28BF001DC415 /* BoxScene.swift in Sources */,
 				238228E727EA263600AA3987 /* ElementsColumnView.swift in Sources */,
 				238228CD27EA13B500AA3987 /* ContentView.swift in Sources */,
 				238228E927EA278000AA3987 /* TopLayoutView.swift in Sources */,

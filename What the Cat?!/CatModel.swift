@@ -9,5 +9,6 @@ import Foundation
 import SpriteKit
 
 class Cat: SKSpriteNode {
-    
+    var tier: Int?
+    var shortDescription = "Just an ordinary cute little kitty."
 }

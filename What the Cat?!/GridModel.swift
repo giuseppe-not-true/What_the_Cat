@@ -13,12 +13,9 @@ class Grid: SKSpriteNode {
     var cols: Int!
     var blockSize: CGFloat!
     
-    var boxPosition: CGPoint!
+    var targetPosition: CGPoint!
+    var elementsMoved = 0
     
-    var init_position: [CGPoint]!
-    
-    // array of CGPoint, where each point stores the position for that row in the grid
-
     convenience init?(blockSize: CGFloat, rows: Int, cols: Int) {
         guard let texture = Grid.gridTexture(blockSize: blockSize,rows: rows, cols:cols) else {
             return nil
@@ -27,7 +24,7 @@ class Grid: SKSpriteNode {
         self.blockSize = blockSize
         self.rows = rows
         self.cols = cols
-        self.boxPosition = CGPoint(x: 0, y: 0)
+        self.targetPosition = CGPoint(x: 0, y: 0)
         self.isUserInteractionEnabled = true
     }
 
@@ -77,12 +74,18 @@ class Grid: SKSpriteNode {
             
             if let tempNode = node as? Ingredient{
                 if node != self {
-                    if node.position != boxPosition {
-                        let action = SKAction.move(to: CGPoint(x: boxPosition.x, y: boxPosition.y), duration: 0.5)
-                        node.run(action)
-                    } else if node.position == boxPosition {
+                    if tempNode.position != targetPosition {
+                        let action = SKAction.move(to: targetPosition, duration: 0.5)
+                        tempNode.run(action)
+                        tempNode.moved = true
+                        elementsMoved += 1
+                        print(elementsMoved)
+                    } else if tempNode.position == targetPosition {
                         let action = SKAction.move(to: tempNode.initialPos, duration: 0.5)
-                        node.run(action)
+                        tempNode.run(action)
+                        tempNode.moved = false
+                        elementsMoved -= 1
+                        print(elementsMoved)
                     }
                 }
             }

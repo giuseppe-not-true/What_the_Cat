@@ -10,4 +10,8 @@ import SpriteKit
 
 class Ingredient: SKSpriteNode {
     var initialPos = CGPoint()
+    var moved = false
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    }
 }

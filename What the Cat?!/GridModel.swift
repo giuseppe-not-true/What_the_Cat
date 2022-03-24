@@ -14,6 +14,10 @@ class Grid: SKSpriteNode {
     var blockSize: CGFloat!
     
     var boxPosition: CGPoint!
+    
+    var init_position: [CGPoint]!
+    
+    // array of CGPoint, where each point stores the position for that row in the grid
 
     convenience init?(blockSize: CGFloat, rows: Int, cols: Int) {
         guard let texture = Grid.gridTexture(blockSize: blockSize,rows: rows, cols:cols) else {
@@ -70,17 +74,18 @@ class Grid: SKSpriteNode {
         for touch in touches {
             let position = touch.location(in:self)
             let node = atPoint(position)
-            if node != self {
-                let action = SKAction.move(to: CGPoint(x: boxPosition.x, y: boxPosition.y), duration: 0.5)
-                node.run(action)
+            
+            if let tempNode = node as? Ingredient{
+                if node != self {
+                    if node.position != boxPosition {
+                        let action = SKAction.move(to: CGPoint(x: boxPosition.x, y: boxPosition.y), duration: 0.5)
+                        node.run(action)
+                    } else if node.position == boxPosition {
+                        let action = SKAction.move(to: tempNode.initialPos, duration: 0.5)
+                        node.run(action)
+                    }
+                }
             }
-//            else {
-//                let x = size.width / 2 + position.x
-//                let y = size.height / 2 - position.y
-//                let row = Int(floor(x / blockSize))
-//                let col = Int(floor(y / blockSize))
-//                print("\(row) \(col)")
-//            }
         }
     }
 }

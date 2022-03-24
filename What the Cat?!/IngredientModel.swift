@@ -9,5 +9,5 @@ import Foundation
 import SpriteKit
 
 class Ingredient: SKSpriteNode {
-    
+    var initialPos = CGPoint()
 }

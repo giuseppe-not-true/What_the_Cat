@@ -12,6 +12,7 @@ class BoxScene: SKScene {
     var background = SKSpriteNode(imageNamed: "wall")
     var cat = Cat(imageNamed: "catto")
     var box = Box(imageNamed: "box-open")
+    
     var ingredients = [Ingredient(imageNamed: "ingredient-atom"), Ingredient(imageNamed: "ingredient-belt"), Ingredient(imageNamed: "ingredient-boot"), Ingredient(imageNamed: "ingredient-bow"), Ingredient(imageNamed: "ingredient-bread-jam"), Ingredient(imageNamed: "ingredient-dirt"), Ingredient(imageNamed: "ingredient-discoball"), Ingredient(imageNamed: "ingredient-fish"), Ingredient(imageNamed: "ingredient-lightbulb"), Ingredient(imageNamed: "ingredient-nekonomicon"), Ingredient(imageNamed: "ingredient-scepter"), Ingredient(imageNamed: "ingredient-sword")]
         
     override func didMove(to view: SKView) {
@@ -57,9 +58,11 @@ class BoxScene: SKScene {
             gridL.boxPosition.y = 50
             
             for ingredient in 0...5 {
+                ingredients[ingredient].name = "\(ingredient)"
                 ingredients[ingredient].zPosition = 14
                 ingredients[ingredient].position = gridL.gridPosition(row: ingredient, col: 0)
                 gridL.addChild(ingredients[ingredient])
+                ingredients[ingredient].initialPos = ingredients[ingredient].position
             }
         }
         
@@ -72,9 +75,12 @@ class BoxScene: SKScene {
             gridR.boxPosition.y = 50
             
             for ingredient in 6...11 {
+                ingredients[ingredient].name = "\(ingredient)"
                 ingredients[ingredient].zPosition = 14
                 ingredients[ingredient].position = gridR.gridPosition(row: ingredient - 6, col: 0)
                 gridR.addChild(ingredients[ingredient])
+                ingredients[ingredient].initialPos = ingredients[ingredient].position
+
             }
         }
     }

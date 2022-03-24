@@ -13,6 +13,8 @@ struct ContentView: View {
     @StateObject var gameLogic: ArcadeGameLogic =  ArcadeGameLogic.shared
     @State var score = 0
     @State var isShowingQuest = false
+    @State var questLevel = 0
+    @State var questSolution = ""
     
     @State var isHiding = true
     @State var isMoving = false
@@ -34,7 +36,7 @@ struct ContentView: View {
                     }
                 
                 VStack {
-                    TopLayout(score: $score, isShowingQuest: $isShowingQuest)
+                    TopLayout(score: $score, questLevel: $questLevel, questSolution: $questSolution, isShowingQuest: $isShowingQuest)
                         .padding([.top, .bottom])
                         .position(x: geometry.size.width/2, y: geometry.frame(in: .global).minY + 60)
                         .onAppear {
@@ -48,7 +50,20 @@ struct ContentView: View {
                             withAnimation {
                                 isShowingQuest = false
                                 self.scene.isCombining = true
-                                gameLogic.score(points: 2)
+//                                gameLogic.score(points: 2)
+                                
+                                print(questSolution)
+                                print(self.scene.resultCat.name)
+                                
+                                if let resultCat = self.scene.resultCat.name {
+                                    print(resultCat)
+                                    if self.scene.resultCat.name == questSolution {
+                                        gameLogic.score(points: 2)
+                                    } else if self.scene.resultCat.name == "Cat-astrophe"{
+                                        gameLogic.score(points: -1)
+                                    }
+                                }
+                                
                                 self.score = gameLogic.currentScore
                             }
                             

@@ -22,7 +22,6 @@ class BoxScene: SKScene {
     var background = SKSpriteNode(imageNamed: "wall")
     var cat = Cat(imageNamed: "catto-1")
     var resultCat = Cat()
-    var result = ""
     var box = Box(imageNamed: "box-open")
     
     let gridL = Grid(blockSize: 60.0, rows: 6, cols: 1)!

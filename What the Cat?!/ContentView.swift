@@ -15,6 +15,7 @@ struct ContentView: View {
     @State var isShowingQuest = false
     @State var questLevel = 0
     @State var questSolution = ""
+    @State var resultCat = ""
     
     @State var isHiding = true
     @State var isMoving = false
@@ -31,6 +32,9 @@ struct ContentView: View {
                 SpriteView(scene: scene, options: [.allowsTransparency])
                     .frame(alignment: .center)
                     .ignoresSafeArea()
+                    .onChange(of: scene.resultCat.name) {newValue in
+                        resultCat = newValue!
+                    }
                     .onChange(of: gameLogic.isGameOver) {_ in
                         
                     }
@@ -52,17 +56,15 @@ struct ContentView: View {
                                 self.scene.isCombining = true
 //                                gameLogic.score(points: 2)
                                 
-                                print(questSolution)
-                                print(self.scene.resultCat.name)
                                 
-                                if let resultCat = self.scene.resultCat.name {
-                                    print(resultCat)
-                                    if self.scene.resultCat.name == questSolution {
-                                        gameLogic.score(points: 2)
-                                    } else if self.scene.resultCat.name == "Cat-astrophe"{
-                                        gameLogic.score(points: -1)
-                                    }
+                                print(questSolution)
+                                print(resultCat)
+                                if resultCat == questSolution {
+                                    gameLogic.score(points: 2)
+                                } else if self.scene.resultCat.name == "Cat-astrophe"{
+                                    gameLogic.score(points: -1)
                                 }
+                                
                                 
                                 self.score = gameLogic.currentScore
                             }

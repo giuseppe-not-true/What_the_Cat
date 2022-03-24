@@ -19,6 +19,7 @@
 		238A42D927EB7C5B002C4B20 /* BoxModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238A42D827EB7C5B002C4B20 /* BoxModel.swift */; };
 		238A42DB27EB7C83002C4B20 /* CatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238A42DA27EB7C83002C4B20 /* CatModel.swift */; };
 		238A42DD27EB7F53002C4B20 /* GridModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238A42DC27EB7F53002C4B20 /* GridModel.swift */; };
+		23F03D1227ECC90D00D035F6 /* ArcadeGameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F03D1127ECC90D00D035F6 /* ArcadeGameLogic.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		238A42D827EB7C5B002C4B20 /* BoxModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxModel.swift; sourceTree = "<group>"; };
 		238A42DA27EB7C83002C4B20 /* CatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatModel.swift; sourceTree = "<group>"; };
 		238A42DC27EB7F53002C4B20 /* GridModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridModel.swift; sourceTree = "<group>"; };
+		23F03D1127ECC90D00D035F6 /* ArcadeGameLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArcadeGameLogic.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 				238228CC27EA13B500AA3987 /* ContentView.swift */,
 				238A42DA27EB7C83002C4B20 /* CatModel.swift */,
 				2382F10B27EB28BF001DC415 /* BoxScene.swift */,
+				23F03D1127ECC90D00D035F6 /* ArcadeGameLogic.swift */,
 				238A42DC27EB7F53002C4B20 /* GridModel.swift */,
 				238A42D627EB7C41002C4B20 /* IngredientModel.swift */,
 				238A42D827EB7C5B002C4B20 /* BoxModel.swift */,
@@ -176,6 +179,7 @@
 				238228E727EA263600AA3987 /* ElementView.swift in Sources */,
 				238A42DB27EB7C83002C4B20 /* CatModel.swift in Sources */,
 				238A42D727EB7C41002C4B20 /* IngredientModel.swift in Sources */,
+				23F03D1227ECC90D00D035F6 /* ArcadeGameLogic.swift in Sources */,
 				238228CD27EA13B500AA3987 /* ContentView.swift in Sources */,
 				238228E927EA278000AA3987 /* TopLayoutView.swift in Sources */,
 				238228CB27EA13B500AA3987 /* What_the_Cat__App.swift in Sources */,

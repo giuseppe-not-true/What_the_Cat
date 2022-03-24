@@ -79,13 +79,11 @@ class Grid: SKSpriteNode {
                         tempNode.run(action)
                         tempNode.moved = true
                         elementsMoved += 1
-                        print(elementsMoved)
                     } else if tempNode.position == targetPosition {
                         let action = SKAction.move(to: tempNode.initialPos, duration: 0.5)
                         tempNode.run(action)
                         tempNode.moved = false
                         elementsMoved -= 1
-                        print(elementsMoved)
                     }
                 }
             }

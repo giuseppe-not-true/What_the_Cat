@@ -10,6 +10,10 @@ import SpriteKit
 
 
 struct ContentView: View {
+    @StateObject var gameLogic: ArcadeGameLogic =  ArcadeGameLogic.shared
+    @State var score = 0
+    @State var isShowingQuest = false
+    
     @State var isHiding = true
     @State var isMoving = false
     
@@ -25,19 +29,41 @@ struct ContentView: View {
                 SpriteView(scene: scene, options: [.allowsTransparency])
                     .frame(alignment: .center)
                     .ignoresSafeArea()
+                    .onChange(of: gameLogic.isGameOver) {_ in
+                        
+                    }
                 
                 VStack {
-                    TopLayout()
+                    TopLayout(score: $score, isShowingQuest: $isShowingQuest)
                         .padding([.top, .bottom])
                         .position(x: geometry.size.width/2, y: geometry.frame(in: .global).minY + 60)
+                        .onAppear {
+                            withAnimation {
+                                isShowingQuest = true
+                            }
+                        }
+                    
                     Button{
                         if !isCombining {
+                            withAnimation {
+                                isShowingQuest = false
+                                self.scene.isCombining = true
+                                gameLogic.score(points: 2)
+                                self.score = gameLogic.currentScore
+                            }
+                            
                             isCombining = true
                             scene.isCombining = true
                             
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                 scene.isCombining = false
                                 isCombining = false
+                            }
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.2){
+                                withAnimation {
+                                    isShowingQuest = true
+                                }
                             }
                         }
                     } label: {

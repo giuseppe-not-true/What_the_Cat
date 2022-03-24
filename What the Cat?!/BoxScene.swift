@@ -8,8 +8,16 @@
 import SwiftUI
 import SpriteKit
 
+enum GameState {
+    case mainScreen
+    case playing
+    case gameOver
+}
+
 class BoxScene: SKScene {
-    
+    var gameLogic = ArcadeGameLogic.shared
+    var lastUpdate: TimeInterval = 0
+
     var isCombining = false
     var background = SKSpriteNode(imageNamed: "wall")
     var cat = Cat(imageNamed: "catto-1")
@@ -111,6 +119,20 @@ class BoxScene: SKScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
+        if self.lastUpdate == 0 { self.lastUpdate = currentTime }
+        
+        // Calculates how much time has passed since the last update
+        let timeElapsedSinceLastUpdate = currentTime - self.lastUpdate
+        
+        if timeElapsedSinceLastUpdate <= 0 {
+            gameLogic.isGameOver = true
+        } else {
+            // Decrease the length of the game session at the game logic
+            self.gameLogic.decreaseSessionTime(by: timeElapsedSinceLastUpdate)
+            
+            self.lastUpdate = currentTime
+        }
+        
         if (gridL.elementsMoved + gridR.elementsMoved >= 3) {
             for ingredient in ingredients {
                 if itemsSelected.contains(ingredient) {
@@ -143,7 +165,8 @@ class BoxScene: SKScene {
             self.resultCat.alpha = 1
             
             if itemsSelected.count > 0 {
-                let combination = "\((itemsSelected[0].name)!)"+"+\((self.cat.name)!)"
+                var combination = "\((itemsSelected[0].name)!)"+"+\((self.cat.name)!)"
+                
                 print(combination)
                 
                 switch(combination) {
@@ -187,6 +210,18 @@ class BoxScene: SKScene {
                     break
                 }
             }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                for itemsSelect in self.itemsSelected {
+                    let action = SKAction.move(to: itemsSelect.initialPos, duration: 0.2)
+                    itemsSelect.run(action)
+                    if let index = self.itemsSelected.firstIndex(of: itemsSelect) {
+                        itemsSelect.moved = false
+                        self.itemsSelected.remove(at: index)
+                    }
+                }
+            }
+            
         } else {
 //            let action = SKAction.setTexture(ordinaryCattos.randomElement()!, resize: true)
 //            cat.run(action)

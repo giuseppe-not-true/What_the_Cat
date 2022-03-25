@@ -19,6 +19,7 @@ class BoxScene: SKScene {
     var lastUpdate: TimeInterval = 0
 
     var isCombining = false
+    var combination = ""
     var background = SKSpriteNode(imageNamed: "wall")
     var cat = Cat(imageNamed: "catto-1")
     var resultCat = Cat()
@@ -33,7 +34,7 @@ class BoxScene: SKScene {
 
     var firstTierCats: [String: (String, String, String)] = ["Warrior Cat": ("A cat perfect for any fight.", "catto-warrior", "11"), "Hunter Cat": ("No more mice.", "catto-hunter", "3"), "Wizard Cat": ("It’s so soft it is magical.", "catto-wizard", "10"), "Cat in the Boot": ("Just a chilling ball of fluff.", "catto-boot", "2"), "Funky Cat": ("These cats are made for dancing!", "catto-funky", "6"), "Anti-gravitatory Cat": ("A living feline paradox.", "catto-jam", "4"), "Nuclear Cat": ("Look! It glows in the dark!", "catto-atom", "0"), "Eurekat": ("Such a brilliant kitty.", "catto-eureka", "8"), "Shrekat": ("Kittens are like onions", "catto-shrek", "5"), "Chubby Cat": ("Maybe too fluffy, but surely lovable.", "catto-chubby", "7"), "Evil Cat": ("Dangerous, but really cute.", "catto-evil", "9"), "Karate Cat": ("A cat trained for the strongest cuddles.", "catto-karate", "1")]
     
-    var secondTierCats: [String: (String, String, String)] = ["Pope Cat": ("Holy cat!", "catto-pope", "108"), "Puss in Boots": ("Legendary swordmaster and cute looking kitty.", "catto-puss-in-boots", "112"), "Nyan Cat": ("nyan nyan nyan nyan nyan nyan nyan…", "catto-nyan", "64"), "Catfish": ("What did you expect?", "catto-fish", "07"), "Exploding Kitty": ("A kickstarterbreaking cat.", "catto-exploding", "05"), "Nekomancer": ("Master of dark arts and napping.", "catto-nekomancer", "109"), "Subfeline": ("It comes with portholes!", "catto-subfeline", "78"), "Uncat": ("It kinda smells, but at least it doesn't need food.", "catto-uncat", "59"), "Ninja Cat": ("Silent and stealthy, ready to attack!", "catto-ninja", "31"), "Jedi Cat": ("The powers of the force, in a little fluffy kitty.", "catto-jedi", "118"), "Supercat": ("It can fly and lift buildings, probably it will just take a nap.", "catto-super", "01")]
+    var secondTierCats: [String: (String, String, String)] = ["Pope Cat": ("Holy cat!", "catto-pope", "10 8"), "Puss in Boots": ("Legendary swordmaster and cute looking kitty.", "catto-puss-in-boots", "11 2"), "Nyan Cat": ("nyan nyan nyan nyan nyan nyan nyan…", "catto-nyan", "6 4"), "Catfish": ("What did you expect?", "catto-fish", "0 7"), "Exploding Kitty": ("A kickstarterbreaking cat.", "catto-exploding", "0 5"), "Nekomancer": ("Master of dark arts and napping.", "catto-nekomancer", "10 9"), "Subfeline": ("It comes with portholes!", "catto-subfeline", "7 8"), "Uncat": ("It kinda smells, but at least it doesn't need food.", "catto-uncat", "5 9"), "Ninja Cat": ("Silent and stealthy, ready to attack!", "catto-ninja", "3 1"), "Jedi Cat": ("The powers of the force, in a little fluffy kitty.", "catto-jedi", "11 8"), "Supercat": ("It can fly and lift buildings, probably it will just take a nap.", "catto-super", "0 1")]
     
     var thirdTierCats: [String: (String, String, String)] = ["Sith Cat": ("Join the fluffy side of the force.", "catto-sith", "1189"), "Cat Norris": ("On the 7th day, God rested … Cat Norris took over.", "catto-norris", "251"), "The Cat wears Purrrada": ("The coolest and most stylish of all cats.", "catto-prada", "261"), "Cathulhu": ("A great fluff one, fear it.", "catto-cathulhu", "579"), "Dalai Cat": ("Be fluffy whenever possible. It is always possible.", "", "068")]
     
@@ -57,10 +58,10 @@ class BoxScene: SKScene {
         cat.name = "cat"
         cat.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2 + 15)
         cat.zPosition = 11
-//        let action = SKAction.setTexture(ordinaryCattos.randomElement()!, resize: true)
-//        cat.run(action)
         cat.size.width = 100.0
         cat.size.height = 100.0
+//        let action = SKAction.setTexture(ordinaryCattos.randomElement()!, resize: true)
+//        cat.run(action)
         
         resultCat.name = "cat"
         resultCat.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2 + 15)
@@ -161,143 +162,43 @@ class BoxScene: SKScene {
             if itemsSelected.count > 0 {
                 self.cat.alpha = 0
                 self.resultCat.alpha = 1
-                
-                var combination: String
 
                 switch(itemsSelected.count) {
                 case 1:
-                    combination = "\(itemsSelected[0].name!)"
+                    for cat in firstTierCats {
+                        if cat.value.2.contains(itemsSelected[0].name!) {
+                            self.resultCat.name = cat.key
+                            self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
+                            break
+                        }
+                    }
                     break
                 case 2:
-                    combination = "\(itemsSelected[0].name!)" + "\(itemsSelected[1].name!)"
+                    for cat in secondTierCats {
+                        if cat.value.2.contains(itemsSelected[0].name!) && cat.value.2.contains(itemsSelected[1].name!) {
+                            self.resultCat.name = cat.key
+                            self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
+                            break
+                        }
+                        else {
+                            self.resultCat.name = "Cat-astrophe"
+                            self.resultCat.texture = SKTexture(imageNamed: self.mistakesCats["Cat-astrophe"]!.1)
+                        }
+                    }
                     break
                 case 3:
-                    combination = "\(itemsSelected[0].name!)" + "\(itemsSelected[1].name!)" + "\(itemsSelected[2].name!)"
+                    for cat in thirdTierCats {
+                        if cat.value.2.contains(itemsSelected[0].name!) && cat.value.2.contains(itemsSelected[1].name!) && cat.value.2.contains(itemsSelected[2].name!) {
+                            self.resultCat.name = cat.key
+                            self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
+                            break
+                        } else {
+                            self.resultCat.name = "Cat-astrophe"
+                            self.resultCat.texture = SKTexture(imageNamed: self.mistakesCats["Cat-astrophe"]!.1)
+                        }
+                    }
                     break
                 default:
-                    combination = ""
-                    break
-                }
-                                
-                switch(combination) {
-                case "0":
-                    self.resultCat.name = "Nuclear Cat"
-                    self.resultCat.texture = SKTexture(imageNamed: self.firstTierCats["Nuclear Cat"]!.1)
-                    break
-                case "1":
-                    self.resultCat.name = "Karate Cat"
-                    self.resultCat.texture = SKTexture(imageNamed: self.firstTierCats["Karate Cat"]!.1)
-                    break
-                case "2":
-                    self.resultCat.name = "Cat in the Boot"
-                    self.resultCat.texture = SKTexture(imageNamed: self.firstTierCats["Cat in the Boot"]!.1)
-                    break
-                case "3":
-                    self.resultCat.name = "Hunter Cat"
-                    self.resultCat.texture = SKTexture(imageNamed: self.firstTierCats["Hunter Cat"]!.1)
-                    break
-                case "4":
-                    self.resultCat.name = "Anti-gravitatory Cat"
-                    self.resultCat.texture = SKTexture(imageNamed: self.firstTierCats["Anti-gravitatory Cat"]!.1)
-                    break
-                case "5":
-                    self.resultCat.name = "Shrekat"
-                    self.resultCat.texture = SKTexture(imageNamed: self.firstTierCats["Shrekat"]!.1)
-                    break
-                case "6":
-                    self.resultCat.name = "Funky Cat"
-                    self.resultCat.texture = SKTexture(imageNamed: self.firstTierCats["Funky Cat"]!.1)
-                    break
-                case "7":
-                    self.resultCat.name = "Chubby Cat"
-                    self.resultCat.texture = SKTexture(imageNamed: self.firstTierCats["Chubby Cat"]!.1)
-                    break
-                case "8":
-                    self.resultCat.name = "Eurekat"
-                    self.resultCat.texture = SKTexture(imageNamed: self.firstTierCats["Eurekat"]!.1)
-                    break
-                case "9":
-                    self.resultCat.name = "Evil Cat"
-                    self.resultCat.texture = SKTexture(imageNamed: self.firstTierCats["Evil Cat"]!.1)
-                    break
-                case "10":
-                    self.resultCat.name = "Wizard Cat"
-                    self.resultCat.texture = SKTexture(imageNamed: self.firstTierCats["Wizard Cat"]!.1)
-                    break
-                case "11":
-                    self.resultCat.name = "Warrior Cat"
-                    self.resultCat.texture = SKTexture(imageNamed: self.firstTierCats["Warrior Cat"]!.1)
-                    break
-                    
-                case "108":
-                    self.resultCat.name = "Pope Cat"
-                    self.resultCat.texture = SKTexture(imageNamed: self.secondTierCats["Pope Cat"]!.1)
-                    break
-                case "112":
-                    self.resultCat.name = "Puss in Boots"
-                    self.resultCat.texture = SKTexture(imageNamed: self.secondTierCats["Puss in Boots"]!.1)
-                    break
-                case "64":
-                    self.resultCat.name = "Nyan Cat"
-                    self.resultCat.texture = SKTexture(imageNamed: self.secondTierCats["Nyan Cat"]!.1)
-                    break
-                case "07":
-                    self.resultCat.name = "Catfish"
-                    self.resultCat.texture = SKTexture(imageNamed: self.secondTierCats["Catfish"]!.1)
-                    break
-                case "05":
-                    self.resultCat.name = "Exploding Kitty"
-                    self.resultCat.texture = SKTexture(imageNamed: self.secondTierCats["Exploding Kitty"]!.1)
-                    break
-                case "109":
-                    self.resultCat.name = "Nekomancer"
-                    self.resultCat.texture = SKTexture(imageNamed: self.secondTierCats["Nekomancer"]!.1)
-                    break
-                case "78":
-                    self.resultCat.name = "Subfeline"
-                    self.resultCat.texture = SKTexture(imageNamed: self.secondTierCats["Subfeline"]!.1)
-                    break
-                case "59":
-                    self.resultCat.name = "Uncat"
-                    self.resultCat.texture = SKTexture(imageNamed: self.secondTierCats["Uncat"]!.1)
-                    break
-                case "31":
-                    self.resultCat.name = "Ninja Cat"
-                    self.resultCat.texture = SKTexture(imageNamed: self.secondTierCats["Ninja Cat"]!.1)
-                    break
-                case "118":
-                    self.resultCat.name = "Jedi Cat"
-                    self.resultCat.texture = SKTexture(imageNamed: self.secondTierCats["Jedi Cat"]!.1)
-                    break
-                case "01":
-                    self.resultCat.name = "Supercat"
-                    self.resultCat.texture = SKTexture(imageNamed: self.secondTierCats["Supercat"]!.1)
-                    break
-                    
-                case "1189":
-                    self.resultCat.name = "Sith Cat"
-                    self.resultCat.texture = SKTexture(imageNamed: self.thirdTierCats["Sith Cat"]!.1)
-                    break
-                case "251":
-                    self.resultCat.name = "Cat Norris"
-                    self.resultCat.texture = SKTexture(imageNamed: self.thirdTierCats["Cat Norris"]!.1)
-                    break
-                case "261":
-                    self.resultCat.name = "The Cat wears Purrrada"
-                    self.resultCat.texture = SKTexture(imageNamed: self.thirdTierCats["The Cat wears Purrrada"]!.1)
-                    break
-                case "579":
-                    self.resultCat.name = "Cathulhu"
-                    self.resultCat.texture = SKTexture(imageNamed: self.thirdTierCats["Cathulhu"]!.1)
-                    break
-                case "068":
-                    self.resultCat.name = "Dalai Cat"
-                    self.resultCat.texture = SKTexture(imageNamed: self.thirdTierCats["Dalai Cat"]!.1)
-                    break
-                    
-                default:
-                    self.resultCat.name = "Cat-astrophe"
-                    self.resultCat.texture = SKTexture(imageNamed: self.mistakesCats["Cat-astrophe"]!.1)
                     break
                 }
                 

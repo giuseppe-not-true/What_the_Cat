@@ -7,7 +7,7 @@
 
 import SwiftUI
 import SpriteKit
-
+import AVFoundation
 
 struct ContentView: View {
     @StateObject var gameLogic: ArcadeGameLogic =  ArcadeGameLogic.shared
@@ -54,16 +54,19 @@ struct ContentView: View {
                             withAnimation {
                                 isShowingQuest = false
                                 self.scene.isCombining = true
+                                self.scene.solution = questSolution
 //                                gameLogic.score(points: 2)
                                 
                                 
                                 print(questSolution)
                                 print(resultCat)
-                                if resultCat == questSolution {
-                                    gameLogic.score(points: 2)
-                                } else if self.scene.resultCat.name == "Cat-astrophe"{
-                                    gameLogic.score(points: -1)
-                                }
+                                
+//                                print(self.scene.solution)
+//                                if resultCat == questSolution {
+//                                    gameLogic.score(points: 2)
+//                                } else if self.scene.resultCat.name == "Cat-astrophe"{
+//                                    gameLogic.score(points: -1)
+//                                }
                                 
                                 
                                 self.score = gameLogic.currentScore
@@ -77,7 +80,7 @@ struct ContentView: View {
                                 isCombining = false
                             }
                             
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.2){
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1){
                                 withAnimation {
                                     isShowingQuest = true
                                 }

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SpriteKit
+import AVFoundation
 
 enum GameState {
     case mainScreen
@@ -14,15 +15,17 @@ enum GameState {
     case gameOver
 }
 
-class BoxScene: SKScene {
+class BoxScene: SKScene, ObservableObject {
     var gameLogic = ArcadeGameLogic.shared
     var lastUpdate: TimeInterval = 0
+    
+    var sounds: AVAudioPlayer?
 
     var isCombining = false
-    var combination = ""
+    var solution = ""
     var background = SKSpriteNode(imageNamed: "wall")
     var cat = Cat(imageNamed: "catto-1")
-    var resultCat = Cat()
+    @Published var resultCat = Cat()
     var box = Box(imageNamed: "box-open")
     
     let gridL = Grid(blockSize: 60.0, rows: 6, cols: 1)!
@@ -36,7 +39,7 @@ class BoxScene: SKScene {
     
     var secondTierCats: [String: (String, String, String)] = ["Pope Cat": ("Holy cat!", "catto-pope", "10 8"), "Puss in Boots": ("Legendary swordmaster and cute looking kitty.", "catto-puss-in-boots", "11 2"), "Nyan Cat": ("nyan nyan nyan nyan nyan nyan nyan…", "catto-nyan", "6 4"), "Catfish": ("What did you expect?", "catto-fish", "0 7"), "Exploding Kitty": ("A kickstarterbreaking cat.", "catto-exploding", "0 5"), "Nekomancer": ("Master of dark arts and napping.", "catto-nekomancer", "10 9"), "Subfeline": ("It comes with portholes!", "catto-subfeline", "7 8"), "Uncat": ("It kinda smells, but at least it doesn't need food.", "catto-uncat", "5 9"), "Ninja Cat": ("Silent and stealthy, ready to attack!", "catto-ninja", "3 1"), "Jedi Cat": ("The powers of the force, in a little fluffy kitty.", "catto-jedi", "11 8"), "Supercat": ("It can fly and lift buildings, probably it will just take a nap.", "catto-super", "0 1")]
     
-    var thirdTierCats: [String: (String, String, String)] = ["Sith Cat": ("Join the fluffy side of the force.", "catto-sith", "1189"), "Cat Norris": ("On the 7th day, God rested … Cat Norris took over.", "catto-norris", "251"), "The Cat wears Purrrada": ("The coolest and most stylish of all cats.", "catto-prada", "261"), "Cathulhu": ("A great fluff one, fear it.", "catto-cathulhu", "579"), "Dalai Cat": ("Be fluffy whenever possible. It is always possible.", "", "068")]
+    var thirdTierCats: [String: (String, String, String)] = ["Sith Cat": ("Join the fluffy side of the force.", "catto-sith", "11 8 9"), "Cat Norris": ("On the 7th day, God rested … Cat Norris took over.", "catto-norris", "2 7 1"), "The Cat wears Purrrada": ("The coolest and most stylish of all cats.", "catto-prada", "2 6 1"), "Cathulhu": ("A great fluff one, fear it.", "catto-cathulhu", "5 7 9"), "Dalai Cat": ("Be fluffy whenever possible. It is always possible.", "", "0 6 8")]
     
     var mistakesCats:  [String: (String, String)] = ["Ordinary Cat": ("Just an ordinary, cute little kitty.", "catto-1"), "Dogezilla": ("", ""), "Filimi": ("", ""), "Cat-astrophe": ("Wh-What have you done…", "catto-catastrophe"), "Cat in the Box": ("", "")]
     
@@ -56,18 +59,18 @@ class BoxScene: SKScene {
         box.size.height = 240.0
         
         cat.name = "cat"
-        cat.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2 + 15)
+        cat.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2 + 20)
         cat.zPosition = 11
-        cat.size.width = 100.0
-        cat.size.height = 100.0
+        cat.size.width = 150.0
+        cat.size.height = 150.0
 //        let action = SKAction.setTexture(ordinaryCattos.randomElement()!, resize: true)
 //        cat.run(action)
         
         resultCat.name = "cat"
-        resultCat.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2 + 15)
+        resultCat.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2 + 20)
         resultCat.zPosition = 11
-        resultCat.size.width = 100.0
-        resultCat.size.height = 100.0
+        resultCat.size.width = 150.0
+        resultCat.size.height = 150.0
         resultCat.alpha = 0
         
         for ingredient in ingredients {
@@ -132,7 +135,7 @@ class BoxScene: SKScene {
             self.lastUpdate = currentTime
         }
                 
-        if (gridL.elementsMoved + gridR.elementsMoved >= 3) {
+        if (gridL.elementsMoved + gridR.elementsMoved > 3) {
             for ingredient in ingredients {
                 if itemsSelected.contains(ingredient) {
                     ingredient.isUserInteractionEnabled = false
@@ -140,7 +143,7 @@ class BoxScene: SKScene {
                     ingredient.isUserInteractionEnabled = true
                 }
             }
-        } else if (gridL.elementsMoved + gridR.elementsMoved < 3) {
+        } else if (gridL.elementsMoved + gridR.elementsMoved <= 3) {
             for ingredient in ingredients {
                 if itemsSelected.contains(ingredient) {
                     if ingredient.moved == false {
@@ -169,6 +172,27 @@ class BoxScene: SKScene {
                         if cat.value.2.contains(itemsSelected[0].name!) {
                             self.resultCat.name = cat.key
                             self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
+                            
+//                            let path = Bundle.main.path(forResource: "cat-purrfect.wav", ofType:nil)!
+//                            let url = URL(fileURLWithPath: path)
+//
+//                            do {
+//                                sounds = try AVAudioPlayer(contentsOf: url)
+//                                sounds?.play()
+//                            } catch {
+//                                // couldn't load file :(
+//                            }
+                            
+                            var isUpdatingScore = true {
+                                didSet {
+                                    if isUpdatingScore {
+                                        updateScore(tier: 1)
+                                        isUpdatingScore = false
+                                    } else {
+                                        
+                                    }
+                                }
+                            }
                             break
                         }
                     }
@@ -178,11 +202,33 @@ class BoxScene: SKScene {
                         if cat.value.2.contains(itemsSelected[0].name!) && cat.value.2.contains(itemsSelected[1].name!) {
                             self.resultCat.name = cat.key
                             self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
+                            
+                            var isUpdatingScore = true {
+                                didSet {
+                                    if isUpdatingScore {
+                                        updateScore(tier: 2)
+                                        isUpdatingScore = false
+                                    } else {
+                                        
+                                    }
+                                }
+                            }
                             break
                         }
                         else {
                             self.resultCat.name = "Cat-astrophe"
                             self.resultCat.texture = SKTexture(imageNamed: self.mistakesCats["Cat-astrophe"]!.1)
+                                                    
+                            var isUpdatingScore = true {
+                                didSet {
+                                    if isUpdatingScore {
+                                        updateScore(tier: -1)
+                                        isUpdatingScore = false
+                                    } else {
+                                        
+                                    }
+                                }
+                            }
                         }
                     }
                     break
@@ -191,18 +237,38 @@ class BoxScene: SKScene {
                         if cat.value.2.contains(itemsSelected[0].name!) && cat.value.2.contains(itemsSelected[1].name!) && cat.value.2.contains(itemsSelected[2].name!) {
                             self.resultCat.name = cat.key
                             self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
+                            var isUpdatingScore = true {
+                                didSet {
+                                    if isUpdatingScore {
+                                        updateScore(tier: 3)
+                                        isUpdatingScore = false
+                                    } else {
+                                        
+                                    }
+                                }
+                            }
                             break
                         } else {
                             self.resultCat.name = "Cat-astrophe"
                             self.resultCat.texture = SKTexture(imageNamed: self.mistakesCats["Cat-astrophe"]!.1)
+                            var isUpdatingScore = true {
+                                didSet {
+                                    if isUpdatingScore {
+                                        updateScore(tier: -1)
+                                        isUpdatingScore = false
+                                    } else {
+                                        
+                                    }
+                                }
+                            }
                         }
                     }
                     break
                 default:
                     break
                 }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     for itemsSelect in self.itemsSelected {
                         let action = SKAction.move(to: itemsSelect.initialPos, duration: 0.2)
                         itemsSelect.run(action)
@@ -216,10 +282,23 @@ class BoxScene: SKScene {
         } else {
 //            let action = SKAction.setTexture(ordinaryCattos.randomElement()!, resize: true)
 //            cat.run(action)
+            if self.solution == self.resultCat.name {
+                self.updateScore(tier: 2)
+                self.resultCat.name = ""
+            }
+            
             self.cat.alpha = 1
             self.resultCat.alpha = 0
 //            print(itemsSelected.count)
 
         }
+        
+        
+        
+    }
+    
+    func updateScore(tier: Int) {
+        gameLogic.score(points: tier)
+        self.resultCat.name = ""
     }
 }

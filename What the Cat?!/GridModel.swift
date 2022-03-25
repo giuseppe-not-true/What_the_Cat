@@ -27,12 +27,12 @@ class Grid: SKSpriteNode {
         self.targetPosition = CGPoint(x: 0, y: 0)
         self.isUserInteractionEnabled = true
     }
-
+    
     class func gridTexture(blockSize:CGFloat,rows:Int,cols:Int) -> SKTexture? {
         // Add 1 to the height and width to ensure the borders are within the sprite
         let size = CGSize(width: CGFloat(cols)*blockSize+1.0, height: CGFloat(rows)*blockSize+1.0)
         UIGraphicsBeginImageContext(size)
-
+        
         guard let context = UIGraphicsGetCurrentContext() else {
             return nil
         }
@@ -56,10 +56,10 @@ class Grid: SKSpriteNode {
         context.addPath(bezierPath.cgPath)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-
+        
         return SKTexture(image: image!)
     }
-
+    
     func gridPosition(row:Int, col:Int) -> CGPoint {
         let offset = blockSize / 2.0 + 0.5
         let x = CGFloat(col) * blockSize - (blockSize * CGFloat(cols)) / 2.0 + offset
@@ -75,15 +75,23 @@ class Grid: SKSpriteNode {
             if let tempNode = node as? Ingredient{
                 if node != self {
                     if tempNode.position != targetPosition {
-                        let action = SKAction.move(to: targetPosition, duration: 0.5)
-                        tempNode.run(action)
-                        tempNode.moved = true
-                        elementsMoved += 1
+                        if elementsMoved < 3 {
+                            
+                            let action = SKAction.move(to: targetPosition, duration: 0.5)
+                            tempNode.run(action)
+                            tempNode.moved = true
+                            
+                            elementsMoved += 1
+                        }
                     } else if tempNode.position == targetPosition {
-                        let action = SKAction.move(to: tempNode.initialPos, duration: 0.5)
-                        tempNode.run(action)
-                        tempNode.moved = false
-                        elementsMoved -= 1
+                        if elementsMoved > 0 {
+                            
+                            let action = SKAction.move(to: tempNode.initialPos, duration: 0.5)
+                            tempNode.run(action)
+                            tempNode.moved = false
+                            
+                            elementsMoved -= 1
+                        }
                     }
                 }
             }

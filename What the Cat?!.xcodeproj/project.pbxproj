@@ -19,8 +19,8 @@
 		238A42D927EB7C5B002C4B20 /* BoxModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238A42D827EB7C5B002C4B20 /* BoxModel.swift */; };
 		238A42DB27EB7C83002C4B20 /* CatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238A42DA27EB7C83002C4B20 /* CatModel.swift */; };
 		238A42DD27EB7F53002C4B20 /* GridModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238A42DC27EB7F53002C4B20 /* GridModel.swift */; };
+		23B1022127F1A2D100470042 /* Audio in Resources */ = {isa = PBXBuildFile; fileRef = 23B1022027F1A2D100470042 /* Audio */; };
 		23DCDBAD27EDD4F300ACED5E /* magicParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 23DCDBAC27EDD4F300ACED5E /* magicParticle.sks */; };
-		23DCDBAF27EDD6E700ACED5E /* Audio in Resources */ = {isa = PBXBuildFile; fileRef = 23DCDBAE27EDD6E700ACED5E /* Audio */; };
 		23F03D1227ECC90D00D035F6 /* ArcadeGameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F03D1127ECC90D00D035F6 /* ArcadeGameLogic.swift */; };
 /* End PBXBuildFile section */
 
@@ -39,8 +39,8 @@
 		238A42D827EB7C5B002C4B20 /* BoxModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxModel.swift; sourceTree = "<group>"; };
 		238A42DA27EB7C83002C4B20 /* CatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatModel.swift; sourceTree = "<group>"; };
 		238A42DC27EB7F53002C4B20 /* GridModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridModel.swift; sourceTree = "<group>"; };
+		23B1022027F1A2D100470042 /* Audio */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Audio; sourceTree = "<group>"; };
 		23DCDBAC27EDD4F300ACED5E /* magicParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = magicParticle.sks; sourceTree = "<group>"; };
-		23DCDBAE27EDD6E700ACED5E /* Audio */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Audio; sourceTree = "<group>"; };
 		23F03D1127ECC90D00D035F6 /* ArcadeGameLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArcadeGameLogic.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,7 +86,7 @@
 				238A42D827EB7C5B002C4B20 /* BoxModel.swift */,
 				238228E827EA278000AA3987 /* TopLayoutView.swift */,
 				238228E627EA263600AA3987 /* ElementView.swift */,
-				23DCDBAE27EDD6E700ACED5E /* Audio */,
+				23B1022027F1A2D100470042 /* Audio */,
 				238228D827EA177C00AA3987 /* Fonts */,
 				238228CE27EA13B800AA3987 /* Assets.xcassets */,
 				238228D027EA13B800AA3987 /* Preview Content */,
@@ -169,7 +169,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				238228E527EA1DE100AA3987 /* Minecraft.ttf in Resources */,
-				23DCDBAF27EDD6E700ACED5E /* Audio in Resources */,
+				23B1022127F1A2D100470042 /* Audio in Resources */,
 				23DCDBAD27EDD4F300ACED5E /* magicParticle.sks in Resources */,
 				238228D227EA13B800AA3987 /* Preview Assets.xcassets in Resources */,
 				238228CF27EA13B800AA3987 /* Assets.xcassets in Resources */,

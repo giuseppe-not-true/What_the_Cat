@@ -60,7 +60,7 @@ class Grid: SKSpriteNode {
         return SKTexture(image: image!)
     }
     
-    func gridPosition(row:Int, col:Int) -> CGPoint {
+    func gridPosition(row: Int, col: Int) -> CGPoint {
         let offset = blockSize / 2.0 + 0.5
         let x = CGFloat(col) * blockSize - (blockSize * CGFloat(cols)) / 2.0 + offset
         let y = CGFloat(rows - row - 1) * blockSize - (blockSize * CGFloat(rows)) / 2.0 + offset

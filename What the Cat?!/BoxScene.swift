@@ -9,40 +9,29 @@ import SwiftUI
 import SpriteKit
 import AVFoundation
 
-enum GameState {
-    case mainScreen
-    case playing
-    case gameOver
-}
-
-class BoxScene: SKScene, ObservableObject {
+class BoxScene: SKScene {
     var gameLogic = ArcadeGameLogic.shared
     var lastUpdate: TimeInterval = 0
+    let formatter = DateComponentsFormatter()
     
-    var sounds: AVAudioPlayer?
-
     var isCombining = false
     var solution = ""
+    var score = SKLabelNode()
+    var timer = SKLabelNode()
+    
     var background = SKSpriteNode(imageNamed: "wall")
+    
     var cat = Cat(imageNamed: "catto-1")
-    @Published var resultCat = Cat()
+    var resultCat = Cat()
+    
     var box = Box(imageNamed: "box-open")
     
-    let gridL = Grid(blockSize: 60.0, rows: 6, cols: 1)!
-    let gridR = Grid(blockSize: 60.0, rows: 6, cols: 1)!
+//    let gridL = Grid(blockSize: 60.0, rows: 6, cols: 1)!
+//    let gridR = Grid(blockSize: 60.0, rows: 6, cols: 1)!
     
-    var ordinaryCattos = [SKTexture(imageNamed: "catto-1"), SKTexture(imageNamed: "catto-2"), SKTexture(imageNamed: "catto-3"), SKTexture(imageNamed: "catto-4"), SKTexture(imageNamed: "catto-5"), SKTexture(imageNamed: "catto-6")]
-    
-    var ingredients = [Ingredient(imageNamed: "ingredient-atom"), Ingredient(imageNamed: "ingredient-belt"), Ingredient(imageNamed: "ingredient-boot"), Ingredient(imageNamed: "ingredient-bow"), Ingredient(imageNamed: "ingredient-bread-jam"), Ingredient(imageNamed: "ingredient-dirt"), Ingredient(imageNamed: "ingredient-discoball"), Ingredient(imageNamed: "ingredient-fish"), Ingredient(imageNamed: "ingredient-lightbulb"), Ingredient(imageNamed: "ingredient-nekonomicon"), Ingredient(imageNamed: "ingredient-scepter"), Ingredient(imageNamed: "ingredient-sword")]
-
-    var firstTierCats: [String: (String, String, String)] = ["Warrior Cat": ("A cat perfect for any fight.", "catto-warrior", "11"), "Hunter Cat": ("No more mice.", "catto-hunter", "3"), "Wizard Cat": ("It’s so soft it is magical.", "catto-wizard", "10"), "Cat in the Boot": ("Just a chilling ball of fluff.", "catto-boot", "2"), "Funky Cat": ("These cats are made for dancing!", "catto-funky", "6"), "Anti-gravitatory Cat": ("A living feline paradox.", "catto-jam", "4"), "Nuclear Cat": ("Look! It glows in the dark!", "catto-atom", "0"), "Eurekat": ("Such a brilliant kitty.", "catto-eureka", "8"), "Shrekat": ("Kittens are like onions", "catto-shrek", "5"), "Chubby Cat": ("Maybe too fluffy, but surely lovable.", "catto-chubby", "7"), "Evil Cat": ("Dangerous, but really cute.", "catto-evil", "9"), "Karate Cat": ("A cat trained for the strongest cuddles.", "catto-karate", "1")]
-    
-    var secondTierCats: [String: (String, String, String)] = ["Pope Cat": ("Holy cat!", "catto-pope", "10 8"), "Puss in Boots": ("Legendary swordmaster and cute looking kitty.", "catto-puss-in-boots", "11 2"), "Nyan Cat": ("nyan nyan nyan nyan nyan nyan nyan…", "catto-nyan", "6 4"), "Catfish": ("What did you expect?", "catto-fish", "0 7"), "Exploding Kitty": ("A kickstarterbreaking cat.", "catto-exploding", "0 5"), "Nekomancer": ("Master of dark arts and napping.", "catto-nekomancer", "10 9"), "Subfeline": ("It comes with portholes!", "catto-subfeline", "7 8"), "Uncat": ("It kinda smells, but at least it doesn't need food.", "catto-uncat", "5 9"), "Ninja Cat": ("Silent and stealthy, ready to attack!", "catto-ninja", "3 1"), "Jedi Cat": ("The powers of the force, in a little fluffy kitty.", "catto-jedi", "11 8"), "Supercat": ("It can fly and lift buildings, probably it will just take a nap.", "catto-super", "0 1")]
-    
-    var thirdTierCats: [String: (String, String, String)] = ["Sith Cat": ("Join the fluffy side of the force.", "catto-sith", "11 8 9"), "Cat Norris": ("On the 7th day, God rested … Cat Norris took over.", "catto-norris", "2 7 1"), "The Cat wears Purrrada": ("The coolest and most stylish of all cats.", "catto-prada", "2 6 1"), "Cathulhu": ("A great fluff one, fear it.", "catto-cathulhu", "5 7 9"), "Dalai Cat": ("Be fluffy whenever possible. It is always possible.", "", "0 6 8")]
-    
-    var mistakesCats:  [String: (String, String)] = ["Ordinary Cat": ("Just an ordinary, cute little kitty.", "catto-1"), "Dogezilla": ("", ""), "Filimi": ("", ""), "Cat-astrophe": ("Wh-What have you done…", "catto-catastrophe"), "Cat in the Box": ("", "")]
-    
+    let gridL = IngredientsGrid(ingredientsInit: ingredients, startFrom: 0)
+    let gridR = IngredientsGrid(ingredientsInit: ingredients, startFrom: 6)
+        
     var itemsSelected = [Ingredient]()
     
     override func didMove(to view: SKView) {
@@ -52,6 +41,18 @@ class BoxScene: SKScene, ObservableObject {
         background.zPosition = 9
         background.size.width = UIScreen.main.bounds.width
         background.size.height = UIScreen.main.bounds.height
+        
+        score = SKLabelNode(text: "Score: \(gameLogic.currentScore)")
+        score.position = CGPoint(x: self.frame.size.width/2 - 200, y: self.frame.size.height*0.9)
+        score.zPosition = 15
+        score.fontSize = 30
+        score.fontName = "Minecraft"
+        
+        timer = SKLabelNode(text: "\(formatter.string(from: gameLogic.sessionDuration)!)")
+        timer.position = CGPoint(x: self.frame.size.width/2 + 200, y: self.frame.size.height*0.9)
+        timer.zPosition = 15
+        timer.fontSize = 30
+        timer.fontName = "Minecraft"
         
         box.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2)
         box.zPosition = 10
@@ -81,7 +82,8 @@ class BoxScene: SKScene, ObservableObject {
         }
         
         addChild(background)
-        
+        addChild(score)
+        addChild(timer)
         addChild(box)
         addChild(cat)
         addChild(resultCat)
@@ -97,13 +99,14 @@ class BoxScene: SKScene, ObservableObject {
         gridL.targetPosition.x = 300
         gridL.targetPosition.y = 50
         
-        for ingredient in 0...5 {
-            ingredients[ingredient].name = "\(ingredient)"
-            ingredients[ingredient].zPosition = 14
-            ingredients[ingredient].position = gridL.gridPosition(row: ingredient, col: 0)
-            gridL.addChild(ingredients[ingredient])
-            ingredients[ingredient].initialPos = ingredients[ingredient].position
-        }
+//        for ingredient in 0...5 {
+//            ingredients[ingredient].name = "\(ingredientsName[ingredient])"
+//            ingredients[ingredient].zPosition = 14
+//            ingredients[ingredient].position = gridL.gridPosition(row: ingredient, col: 0)
+//            gridL.addChild(ingredients[ingredient])
+//            ingredients[ingredient].initialPos = ingredients[ingredient].position
+//        }
+        
         gridR.zPosition = 13
         gridR.position = CGPoint (x:frame.maxX - frame.maxX*0.08, y:frame.midY)
         addChild(gridR)
@@ -111,13 +114,13 @@ class BoxScene: SKScene, ObservableObject {
         gridR.targetPosition.x = -300
         gridR.targetPosition.y = 50
         
-        for ingredient in 6...11 {
-            ingredients[ingredient].name = "\(ingredient)"
-            ingredients[ingredient].zPosition = 14
-            ingredients[ingredient].position = gridR.gridPosition(row: ingredient - 6, col: 0)
-            gridR.addChild(ingredients[ingredient])
-            ingredients[ingredient].initialPos = ingredients[ingredient].position
-        }
+//        for ingredient in 6...11 {
+//            ingredients[ingredient].name = "\(ingredientsName[ingredient])"
+//            ingredients[ingredient].zPosition = 14
+//            ingredients[ingredient].position = gridR.gridPosition(row: ingredient - 6, col: 0)
+//            gridR.addChild(ingredients[ingredient])
+//            ingredients[ingredient].initialPos = ingredients[ingredient].position
+//        }
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -131,7 +134,7 @@ class BoxScene: SKScene, ObservableObject {
         } else {
             // Decrease the length of the game session at the game logic
             self.gameLogic.decreaseSessionTime(by: timeElapsedSinceLastUpdate)
-            
+            timer.text = "\(formatter.string(from: gameLogic.sessionDuration)!)"
             self.lastUpdate = currentTime
         }
                 
@@ -173,16 +176,6 @@ class BoxScene: SKScene, ObservableObject {
                             self.resultCat.name = cat.key
                             self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
                             
-//                            let path = Bundle.main.path(forResource: "cat-purrfect.wav", ofType:nil)!
-//                            let url = URL(fileURLWithPath: path)
-//
-//                            do {
-//                                sounds = try AVAudioPlayer(contentsOf: url)
-//                                sounds?.play()
-//                            } catch {
-//                                // couldn't load file :(
-//                            }
-                            
                             var isUpdatingScore = true {
                                 didSet {
                                     if isUpdatingScore {
@@ -217,7 +210,7 @@ class BoxScene: SKScene, ObservableObject {
                         }
                         else {
                             self.resultCat.name = "Cat-astrophe"
-                            self.resultCat.texture = SKTexture(imageNamed: self.mistakesCats["Cat-astrophe"]!.1)
+                            self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
                                                     
                             var isUpdatingScore = true {
                                 didSet {
@@ -250,7 +243,7 @@ class BoxScene: SKScene, ObservableObject {
                             break
                         } else {
                             self.resultCat.name = "Cat-astrophe"
-                            self.resultCat.texture = SKTexture(imageNamed: self.mistakesCats["Cat-astrophe"]!.1)
+                            self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
                             var isUpdatingScore = true {
                                 didSet {
                                     if isUpdatingScore {
@@ -292,13 +285,11 @@ class BoxScene: SKScene, ObservableObject {
 //            print(itemsSelected.count)
 
         }
-        
-        
-        
     }
     
     func updateScore(tier: Int) {
         gameLogic.score(points: tier)
+        score.text = "Score: \(gameLogic.currentScore)"
         self.resultCat.name = ""
     }
 }

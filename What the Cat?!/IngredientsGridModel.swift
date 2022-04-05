@@ -11,22 +11,25 @@ import SpriteKit
 class IngredientsGrid: SKSpriteNode {
     let maxRow = 3
     let maxCol = 2
-    var ingredients: [[Ingredient]] = [[]]   // Array(repeating: [Ingredient()], count: 6)
+    var ingredients = [
+        Array(repeating: Ingredient(), count: 2),
+        Array(repeating: Ingredient(), count: 2),
+        Array(repeating: Ingredient(), count: 2)
+    ]
     var targetPosition: CGPoint!
     var elementsMoved = 0
     
     init(ingredientsInit: [Ingredient], startFrom: Int) {
         var counter = startFrom
         
+        print("test")
+        
         for rowIndex in 0...maxRow-1 {
             for colIndex in 0...maxCol-1 {
                 print(counter)
-//                self.ingredients[rowIndex][colIndex] = ingredientsInit[counter]
-                self.ingredients[rowIndex].append(ingredientsInit[counter])
+                self.ingredients[rowIndex][colIndex] = ingredientsInit[counter]
                 self.ingredients[rowIndex][colIndex].name = "\(ingredientsName[counter])"
                 self.ingredients[rowIndex][colIndex].zPosition = 14
-//                self.ingredients[rowIndex][colIndex].position = gridL.gridPosition(row: ingredient, col: 0)
-//                gridL.addChild(ingredients[ingredient])
                 self.ingredients[rowIndex][colIndex].initialPos = ingredientsInit[counter].position
                 counter+=1
             }
@@ -34,7 +37,9 @@ class IngredientsGrid: SKSpriteNode {
         
         self.targetPosition = CGPoint(x: 0, y: 0)
         
-        super.init(texture: SKTexture(imageNamed: ""), color: UIColor.red, size: CGSize(width: 100, height: 100))
+        super.init(texture: SKTexture(imageNamed: "box"), color: UIColor.red, size: CGSize(width: 150, height: 300))
+        self.isUserInteractionEnabled = true
+        
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -17,7 +17,19 @@ enum GameState {
 
 //Ingredients types
 
-let ingredients = [Ingredient(imageNamed: "ingredient-atom"), Ingredient(imageNamed: "ingredient-belt"), Ingredient(imageNamed: "ingredient-boot"), Ingredient(imageNamed: "ingredient-bow"), Ingredient(imageNamed: "ingredient-bread-jam"), Ingredient(imageNamed: "ingredient-dirt"), Ingredient(imageNamed: "ingredient-discoball"), Ingredient(imageNamed: "ingredient-fish"), Ingredient(imageNamed: "ingredient-lightbulb"), Ingredient(imageNamed: "ingredient-nekonomicon"), Ingredient(imageNamed: "ingredient-scepter"), Ingredient(imageNamed: "ingredient-sword")]
+let ingredients = [
+    Ingredient(imageNamed: "ingredient-atom"),
+    Ingredient(imageNamed: "ingredient-belt"),
+    Ingredient(imageNamed: "ingredient-boot"),
+    Ingredient(imageNamed: "ingredient-bow"),
+    Ingredient(imageNamed: "ingredient-bread-jam"),
+    Ingredient(imageNamed: "ingredient-dirt"),
+    Ingredient(imageNamed: "ingredient-discoball"),
+    Ingredient(imageNamed: "ingredient-fish"),
+    Ingredient(imageNamed: "ingredient-lightbulb"),
+    Ingredient(imageNamed: "ingredient-nekonomicon"),
+    Ingredient(imageNamed: "ingredient-scepter"),
+    Ingredient(imageNamed: "ingredient-sword")]
 
 let ingredientsName = ["atom", "belt", "boot", "bow", "bread-jam", "dirt", "discoball", "fish", "lightbulb", "nekonomicon", "scepter", "sword"]
 

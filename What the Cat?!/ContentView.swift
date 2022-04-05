@@ -32,12 +32,12 @@ struct ContentView: View {
                 SpriteView(scene: scene, options: [.allowsTransparency])
                     .frame(alignment: .center)
                     .ignoresSafeArea()
-                    .onChange(of: scene.resultCat.name) {newValue in
-                        resultCat = newValue!
-                    }
-                    .onChange(of: gameLogic.isGameOver) {_ in
-                        
-                    }
+//                    .onChange(of: scene.resultCat.name) {newValue in
+//                        resultCat = newValue!
+//                    }
+//                    .onChange(of: gameLogic.isGameOver) {_ in
+//                        
+//                    }
                 
                 VStack {
                     TopLayout(score: $score, questLevel: $questLevel, questSolution: $questSolution, isShowingQuest: $isShowingQuest)

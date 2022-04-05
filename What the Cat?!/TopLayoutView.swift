@@ -19,8 +19,10 @@ struct TopLayout: View {
     var body: some View {
         VStack {
             if isShowingQuest {
-                RoundedRectangle(cornerRadius: 10)
-                    .frame(height: 50, alignment: .center)
+//                RoundedRectangle(cornerRadius: 10)
+                Image("button")
+                    .resizable()
+                    .frame(width: 500, height: 50, alignment: .center)
                     .foregroundColor(.accentColor)
                     .overlay {
                         Text(quest)

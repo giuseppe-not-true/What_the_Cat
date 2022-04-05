@@ -21,12 +21,9 @@ class IngredientsGrid: SKSpriteNode {
     
     init(ingredientsInit: [Ingredient], startFrom: Int) {
         var counter = startFrom
-        
-        print("test")
-        
+                
         for rowIndex in 0...maxRow-1 {
             for colIndex in 0...maxCol-1 {
-                print(counter)
                 self.ingredients[rowIndex][colIndex] = ingredientsInit[counter]
                 self.ingredients[rowIndex][colIndex].name = "\(ingredientsName[counter])"
                 self.ingredients[rowIndex][colIndex].zPosition = 14
@@ -37,7 +34,7 @@ class IngredientsGrid: SKSpriteNode {
         
         self.targetPosition = CGPoint(x: 0, y: 0)
         
-        super.init(texture: SKTexture(imageNamed: "box"), color: UIColor.red, size: CGSize(width: 150, height: 300))
+        super.init(texture: SKTexture(imageNamed: "Shelf"), color: UIColor.clear, size: CGSize(width: 150, height: 300))
         self.isUserInteractionEnabled = true
         
     }

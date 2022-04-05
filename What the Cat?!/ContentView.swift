@@ -24,7 +24,9 @@ struct ContentView: View {
     let scene = BoxScene()
     @State var posCat = CGPoint()
     @State var center = CGPoint()
+    
     @State var isCombining = false
+    @State var hasClickClear = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -42,62 +44,79 @@ struct ContentView: View {
                 VStack {
                     TopLayout(score: $score, questLevel: $questLevel, questSolution: $questSolution, isShowingQuest: $isShowingQuest)
                         .padding([.top, .bottom])
-                        .position(x: geometry.size.width/2, y: geometry.frame(in: .global).minY + 60)
+                        .position(x: geometry.size.width/2, y: geometry.frame(in: .global).minY + 80)
                         .onAppear {
                             withAnimation {
                                 isShowingQuest = true
                             }
                         }
                     
-                    Button{
-                        if !isCombining {
-                            withAnimation {
-                                isShowingQuest = false
-                                self.scene.isCombining = true
-                                self.scene.solution = questSolution
-//                                gameLogic.score(points: 2)
-                                
-                                
-                                print(questSolution)
-                                print(resultCat)
-                                
-//                                print(self.scene.solution)
-//                                if resultCat == questSolution {
-//                                    gameLogic.score(points: 2)
-//                                } else if self.scene.resultCat.name == "Cat-astrophe"{
-//                                    gameLogic.score(points: -1)
-//                                }
-                                
-                                
-                                self.score = gameLogic.currentScore
+                    HStack {
+                        Button {
+                            if !hasClickClear {
+                                scene.hasClickClear = true
+                                hasClickClear = true
                             }
-                            
-                            isCombining = true
-                            scene.isCombining = true
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                scene.isCombining = false
-                                isCombining = false
+                                scene.hasClickClear = false
+                                hasClickClear = false
                             }
-                            
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                        } label: {
+//                            RoundedRectangle(cornerRadius: 10)
+                            Image("button")
+                                .resizable()
+                                .overlay {
+                                    Text(LocalizedStringKey("Clear"))
+                                        .foregroundColor(.white)
+                                        .font(.custom("Minecraft", size: 30))
+                                }
+
+                        }
+                        .frame(width: 200, height: 50, alignment: .center)
+                        
+                        Button{
+                            if !isCombining {
                                 withAnimation {
-                                    isShowingQuest = true
+                                    isShowingQuest = false
+                                    self.scene.isCombining = true
+                                    self.scene.solution = questSolution
+//                                    gameLogic.score(points: 2)
+//
+//
+//                                    print(questSolution)
+//                                    print(resultCat)
+//
+//                                    self.score = gameLogic.currentScore
+                                }
+                                
+                                isCombining = true
+                                scene.isCombining = true
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                    scene.isCombining = false
+                                    isCombining = false
+                                }
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                                    withAnimation {
+                                        isShowingQuest = true
+                                    }
                                 }
                             }
+                        } label: {
+//                            RoundedRectangle(cornerRadius: 10)
+                            Image("button")
+                                .resizable()
+                                .overlay {
+                                    Text(LocalizedStringKey("Combine"))
+                                        .foregroundColor(.white)
+                                        .font(.custom("Minecraft", size: 30))
+                                }
+                                
                         }
-                    } label: {
-                        RoundedRectangle(cornerRadius: 10)
-                            .overlay {
-                                Text(LocalizedStringKey("Combine"))
-                                    .foregroundColor(.white)
-                                    .font(.custom("Minecraft", size: 30))
-                            }
-                            
+                        .frame(width: 200, height: 50, alignment: .center)
                     }
-                    .frame(width: 200, height: 50, alignment: .center)
-                    .position(x: geometry.size.width/2, y: geometry.frame(in: .global).midY - 30)
-                    
                 }
             }
         }

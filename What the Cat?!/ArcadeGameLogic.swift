@@ -18,7 +18,7 @@ class ArcadeGameLogic: ObservableObject {
         // TODO: Customize!
         
         self.currentScore = 0
-        self.sessionDuration = 120
+        self.sessionDuration = 121
         
         self.isGameOver = false
     }
@@ -35,7 +35,7 @@ class ArcadeGameLogic: ObservableObject {
     }
     
     // Keep tracks of the duration of the current session in number of seconds
-    @Published var sessionDuration: TimeInterval = 120
+    @Published var sessionDuration: TimeInterval = 121
     
     func decreaseSessionTime(by timeIncrement: TimeInterval) {
         self.sessionDuration = self.sessionDuration - timeIncrement

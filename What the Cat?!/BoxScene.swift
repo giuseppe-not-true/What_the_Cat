@@ -15,6 +15,7 @@ class BoxScene: SKScene {
     let formatter = DateComponentsFormatter()
     
     var isCombining = false
+    var hasClickClear = false
     var solution = ""
     var score = SKLabelNode()
     var timer = SKLabelNode()
@@ -25,9 +26,6 @@ class BoxScene: SKScene {
     var resultCat = Cat()
     
     var box = Box(imageNamed: "box-open")
-    
-    //    let gridL = Grid(blockSize: 60.0, rows: 6, cols: 1)!
-    //    let gridR = Grid(blockSize: 60.0, rows: 6, cols: 1)!
     
     let gridL = IngredientsGrid(ingredientsInit: ingredients, startFrom: 0)
     let gridR = IngredientsGrid(ingredientsInit: ingredients, startFrom: 6)
@@ -45,13 +43,13 @@ class BoxScene: SKScene {
         background.size.height = UIScreen.main.bounds.height
         
         score = SKLabelNode(text: "Score: \(gameLogic.currentScore)")
-        score.position = CGPoint(x: self.frame.size.width/2 - 200, y: self.frame.size.height*0.9)
+        score.position = CGPoint(x: self.frame.size.width/2 - 190, y: self.frame.size.height*0.9)
         score.zPosition = 15
         score.fontSize = 30
         score.fontName = "Minecraft"
         
         timer = SKLabelNode(text: "\(formatter.string(from: gameLogic.sessionDuration)!)")
-        timer.position = CGPoint(x: self.frame.size.width/2 + 200, y: self.frame.size.height*0.9)
+        timer.position = CGPoint(x: self.frame.size.width/2 + 220, y: self.frame.size.height*0.9)
         timer.zPosition = 15
         timer.fontSize = 30
         timer.fontName = "Minecraft"
@@ -77,9 +75,8 @@ class BoxScene: SKScene {
         resultCat.alpha = 0
         
         for ingredient in ingredients {
-            //            ingredient.zPosition = 12
-            ingredient.size.width = 50.0
-            ingredient.size.height = 50.0
+            ingredient.size.width = 70.0
+            ingredient.size.height = 70.0
         }
         
         addChild(background)
@@ -110,9 +107,19 @@ class BoxScene: SKScene {
         for rowIndex in 0...2 {
             for colIndex in 0...1 {
                 gridL.ingredients[rowIndex][colIndex].position = CGPoint(x: (colIndex * 90) - 40, y: (rowIndex * 100) - 100)
+                gridL.ingredients[rowIndex][colIndex].initialPos = gridL.ingredients[rowIndex][colIndex].position
+                let leftIngredientName = SKLabelNode(text: gridL.ingredients[rowIndex][colIndex].name)
+                leftIngredientName.position = CGPoint(x: gridL.ingredients[rowIndex][colIndex].position.x, y: gridL.ingredients[rowIndex][colIndex].position.y - 20.0)
                 gridL.addChild(gridL.ingredients[rowIndex][colIndex])
+                gridL.addChild(leftIngredientName)
+                
                 gridR.ingredients[rowIndex][colIndex].position = CGPoint(x: (colIndex * -90) + 40, y: (rowIndex * 100) - 100)
+                gridR.ingredients[rowIndex][colIndex].initialPos = gridR.ingredients[rowIndex][colIndex].position
+                let rightIngredientName = SKLabelNode(text: gridR.ingredients[rowIndex][colIndex].name)
+                rightIngredientName.position = CGPoint(x: gridR.ingredients[rowIndex][colIndex].position.x, y: gridR.ingredients[rowIndex][colIndex].position.y - 20.0)
                 gridR.addChild(gridR.ingredients[rowIndex][colIndex])
+                gridR.addChild(rightIngredientName)
+
             }
         }
     }
@@ -125,6 +132,7 @@ class BoxScene: SKScene {
         
         if timeElapsedSinceLastUpdate <= 0 {
             gameLogic.isGameOver = true
+            timer.text = "Time is over"
         } else {
             // Decrease the length of the game session at the game logic
             self.gameLogic.decreaseSessionTime(by: timeElapsedSinceLastUpdate)
@@ -133,26 +141,11 @@ class BoxScene: SKScene {
         }
         
         if ((gridL.elementsMoved + gridR.elementsMoved) == 3) {
-            tmpL = gridL.elementsMoved
-            tmpR = gridR.elementsMoved
+//            tmpL = gridL.elementsMoved
+//            tmpR = gridR.elementsMoved
             
             gridL.elementsMoved = 3
             gridR.elementsMoved = 3
-//            for rowIndex in 0...2 {
-//                for colIndex in 0...1 {
-//                    gridL.ingredients[rowIndex][colIndex].isUserInteractionEnabled = false
-//                    gridR.ingredients[rowIndex][colIndex].isUserInteractionEnabled = false
-//
-//                    if itemsSelected.contains(gridL.ingredients[rowIndex][colIndex]) {
-//                        gridL.ingredients[rowIndex][colIndex].isUserInteractionEnabled = true
-//                    }
-//
-//                    if itemsSelected.contains(gridR.ingredients[rowIndex][colIndex]) {
-//                        gridR.ingredients[rowIndex][colIndex].isUserInteractionEnabled = true
-//                    }
-//                }
-//            }
-            
         }
         else if ((gridL.elementsMoved + gridR.elementsMoved) < 3) {
             for rowIndex in 0...2 {
@@ -182,23 +175,31 @@ class BoxScene: SKScene {
                         }
                     }
                     
-                    gridL.ingredients[rowIndex][colIndex].isUserInteractionEnabled = false
-                    gridR.ingredients[rowIndex][colIndex].isUserInteractionEnabled = false
+//                    gridL.ingredients[rowIndex][colIndex].isUserInteractionEnabled = false
+//                    gridR.ingredients[rowIndex][colIndex].isUserInteractionEnabled = false
                 }
             }
-        } else {
-            print("> 3")
+        }
+        
+        if hasClickClear {
+            for itemsSelect in self.itemsSelected {
+                let action = SKAction.move(to: itemsSelect.initialPos, duration: 0.2)
+                itemsSelect.run(action)
+                itemsSelect.moved = false
+                self.gridL.elementsMoved = 0
+                self.gridR.elementsMoved = 0
+            }
+            itemsSelected.removeAll()
         }
         
         if self.isCombining {
             if itemsSelected.count > 0 {
                 self.cat.alpha = 0
                 self.resultCat.alpha = 1
-                
                 switch(itemsSelected.count) {
                 case 1:
                     for cat in firstTierCats {
-                        if cat.value.2.contains(itemsSelected[0].name!) {
+                        if (cat.value.2.contains(itemsSelected[0].name!)) {
                             self.resultCat.name = cat.key
                             self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
                             
@@ -219,7 +220,7 @@ class BoxScene: SKScene {
                     break
                 case 2:
                     for cat in secondTierCats {
-                        if cat.value.2.contains(itemsSelected[0].name!) && cat.value.2.contains(itemsSelected[1].name!) {
+                        if (cat.value.2.contains(itemsSelected[0].name!) && cat.value.2.contains(itemsSelected[1].name!)) {
                             self.resultCat.name = cat.key
                             self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
                             
@@ -256,7 +257,7 @@ class BoxScene: SKScene {
                     break
                 case 3:
                     for cat in thirdTierCats {
-                        if cat.value.2.contains(itemsSelected[0].name!) && cat.value.2.contains(itemsSelected[1].name!) && cat.value.2.contains(itemsSelected[2].name!) {
+                        if (cat.value.2.contains(itemsSelected[0].name!) && cat.value.2.contains(itemsSelected[1].name!) && cat.value.2.contains(itemsSelected[2].name!)) {
                             self.resultCat.name = cat.key
                             self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
                             var isUpdatingScore = true {
@@ -300,17 +301,18 @@ class BoxScene: SKScene {
                         self.gridL.elementsMoved = 0
                         self.gridR.elementsMoved = 0
                     }
+                    self.itemsSelected.removeAll()
                 }
             }
             
         } else {
             //            let action = SKAction.setTexture(ordinaryCattos.randomElement()!, resize: true)
             //            cat.run(action)
-            if self.solution == self.resultCat.name {
-                self.updateScore(tier: 2)
-                score.text = "Score: \(gameLogic.currentScore)"
-                self.resultCat.name = ""
-            }
+//            if self.solution == self.resultCat.name {
+//                self.updateScore(tier: 2)
+//                score.text = "Score: \(gameLogic.currentScore)"
+//                self.resultCat.name = "cat"
+//            }
             
             self.cat.alpha = 1
             self.resultCat.alpha = 0

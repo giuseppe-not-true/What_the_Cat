@@ -38,38 +38,38 @@ let ingredientsName = ["atom", "belt", "boot", "bow", "bread-jam", "dirt", "disc
 let ordinaryCattos = [SKTexture(imageNamed: "catto-1"), SKTexture(imageNamed: "catto-2"), SKTexture(imageNamed: "catto-3"), SKTexture(imageNamed: "catto-4"), SKTexture(imageNamed: "catto-5"), SKTexture(imageNamed: "catto-6")]
 
 let firstTierCats: [String: (String, String, String)] = [
-    "Warrior Cat": ("A cat perfect for any fight.", "catto-warrior", "11"),
-    "Hunter Cat": ("No more mice.", "catto-hunter", "3"),
-    "Wizard Cat": ("It’s so soft it is magical.", "catto-wizard", "10"),
-    "Cat in the Boot": ("Just a chilling ball of fluff.", "catto-boot", "2"),
-    "Funky Cat": ("These cats are made for dancing!", "catto-funky", "6"),
-    "Anti-gravitatory Cat": ("A living feline paradox.", "catto-jam", "4"),
-    "Nuclear Cat": ("Look! It glows in the dark!", "catto-atom", "0"),
-    "Eurekat": ("Such a brilliant kitty.", "catto-eureka", "8"),
-    "Shrekat": ("Kittens are like onions", "catto-shrek", "5"),
-    "Chubby Cat": ("Maybe too fluffy, but surely lovable.", "catto-chubby", "7"),
-    "Evil Cat": ("Dangerous, but really cute.", "catto-evil", "9"),
-    "Karate Cat": ("A cat trained for the strongest cuddles.", "catto-karate", "1")]
+    "Warrior Cat": ("A cat perfect for any fight.", "catto-warrior", "sword"),
+    "Hunter Cat": ("No more mice.", "catto-hunter", "ow"),
+    "Wizard Cat": ("It’s so soft it is magical.", "catto-wizard", "scepter"),
+    "Cat in the Boot": ("Just a chilling ball of fluff.", "catto-boot", "boot"),
+    "Funky Cat": ("These cats are made for dancing!", "catto-funky", "discoball"),
+    "Anti-gravitatory Cat": ("A living feline paradox.", "catto-jam", "bread-jam"),
+    "Nuclear Cat": ("Look! It glows in the dark!", "catto-atom", "atom"),
+    "Eurekat": ("Such a brilliant kitty.", "catto-eureka", "lightbulb"),
+    "Shrekat": ("Kittens are like onions", "catto-shrek", "dirt"),
+    "Chubby Cat": ("Maybe too fluffy, but surely lovable.", "catto-chubby", "fish"),
+    "Evil Cat": ("Dangerous, but really cute.", "catto-evil", "nekonomicon"),
+    "Karate Cat": ("A cat trained for the strongest cuddles.", "catto-karate", "belt")]
 
 let secondTierCats: [String: (String, String, String)] = [
-    "Pope Cat": ("Holy cat!", "catto-pope", "10 8"),
-    "Puss in Boots": ("Legendary swordmaster and cute looking kitty.", "catto-puss-in-boots", "11 2"),
-    "Nyan Cat": ("nyan nyan nyan nyan nyan nyan nyan…", "catto-nyan", "6 4"),
-    "Catfish": ("What did you expect?", "catto-fish", "0 7"),
-    "Exploding Kitty": ("A kickstarterbreaking cat.", "catto-exploding", "0 5"),
-    "Nekomancer": ("Master of dark arts and napping.", "catto-nekomancer", "10 9"),
-    "Subfeline": ("It comes with portholes!", "catto-subfeline", "7 8"),
-    "Uncat": ("It kinda smells, but at least it doesn't need food.", "catto-uncat", "5 9"),
-    "Ninja Cat": ("Silent and stealthy, ready to attack!", "catto-ninja", "3 1"),
-    "Jedi Cat": ("The powers of the force, in a little fluffy kitty.", "catto-jedi", "11 8"),
-    "Supercat": ("It can fly and lift buildings, probably it will just take a nap.", "catto-super", "0 1")]
+    "Pope Cat": ("Holy cat!", "catto-pope", "scepter + lightbulb"),
+    "Puss in Boots": ("Legendary swordmaster and cute looking kitty.", "catto-puss-in-boots", "sword + boots"),
+    "Nyan Cat": ("nyan nyan nyan nyan nyan nyan nyan…", "catto-nyan", "discoball + bread-jam"),
+    "Catfish": ("What did you expect?", "catto-fish", "atom + fish"),
+    "Exploding Kitty": ("A kickstarterbreaking cat.", "catto-exploding", "dirt + atom"),
+    "Nekomancer": ("Master of dark arts and napping.", "catto-nekomancer", "scepter + nekonomicon"),
+    "Subfeline": ("It comes with portholes!", "catto-subfeline", "lightbulb + fish"),
+    "Uncat": ("It kinda smells, but at least it doesn't need food.", "catto-uncat", "dirt + nekonomicon"),
+    "Ninja Cat": ("Silent and stealthy, ready to attack!", "catto-ninja", "bow + belt"),
+    "Jedi Cat": ("The powers of the force, in a little fluffy kitty.", "catto-jedi", "sword + lightbulb"),
+    "Supercat": ("It can fly and lift buildings, probably it will just take a nap.", "catto-super", "atom + belt")]
 
 let thirdTierCats: [String: (String, String, String)] = [
-    "Sith Cat": ("Join the fluffy side of the force.", "catto-sith", "11 8 9"),
-    "Cat Norris": ("On the 7th day, God rested … Cat Norris took over.", "catto-norris", "2 7 1"),
-    "The Cat wears Purrrada": ("The coolest and most stylish of all cats.", "catto-prada", "2 6 1"),
-    "Cathulhu": ("A great fluff one, fear it.", "catto-cathulhu", "5 7 9"),
-    "Dalai Cat": ("Be fluffy whenever possible. It is always possible.", "", "0 6 8")]
+    "Sith Cat": ("Join the fluffy side of the force.", "catto-sith", "sword + lightbulb + nekonomicon"),
+    "Cat Norris": ("On the 7th day, God rested … Cat Norris took over.", "catto-norris", "boots + dirt + belt"),
+    "The Cat wears Purrrada": ("The coolest and most stylish of all cats.", "catto-prada", "boots + discoball + belt"),
+    "Cathulhu": ("A great fluff one, fear it.", "catto-cathulhu", "dirt + fish + nekonomicon"),
+    "Dalai Cat": ("Be fluffy whenever possible. It is always possible.", "catto-dalai", "atom + discoball + lightbulb")]
 
 let mistakesCats:  [String: (String, String)] = [
     "Ordinary Cat": ("Just an ordinary, cute little kitty.", "catto-1"),

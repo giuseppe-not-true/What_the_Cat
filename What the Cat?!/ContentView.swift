@@ -81,13 +81,6 @@ struct ContentView: View {
                                     isShowingQuest = false
                                     self.scene.isCombining = true
                                     self.scene.solution = questSolution
-//                                    gameLogic.score(points: 2)
-//
-//
-//                                    print(questSolution)
-//                                    print(resultCat)
-//
-//                                    self.score = gameLogic.currentScore
                                 }
                                 
                                 isCombining = true

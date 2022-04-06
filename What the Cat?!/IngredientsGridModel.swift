@@ -16,6 +16,7 @@ class IngredientsGrid: SKSpriteNode {
         Array(repeating: Ingredient(), count: 2),
         Array(repeating: Ingredient(), count: 2)
     ]
+    var itemsSelected = [Ingredient]()
     var targetPosition: CGPoint!
     var elementsMoved = 0
     
@@ -56,17 +57,19 @@ class IngredientsGrid: SKSpriteNode {
                             let action = SKAction.move(to: targetPosition, duration: 0.5)
                             tempNode.run(action)
                             tempNode.moved = true
-                            
-                            elementsMoved += 1
+                            self.itemsSelected.append(tempNode)
+//                            elementsMoved += 1
                         }
                     } else if tempNode.position == targetPosition {
                         if elementsMoved > 0 {
-                            
+
                             let action = SKAction.move(to: tempNode.initialPos, duration: 0.5)
                             tempNode.run(action)
                             tempNode.moved = false
-                            
-                            elementsMoved -= 1
+                            if let index = self.itemsSelected.firstIndex(of: tempNode) {
+                                self.itemsSelected.remove(at: index)
+                            }
+//                            elementsMoved -= 1
                         }
                     }
                 }

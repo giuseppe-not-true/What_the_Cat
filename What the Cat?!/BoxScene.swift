@@ -29,11 +29,7 @@ class BoxScene: SKScene {
     
     let gridL = IngredientsGrid(ingredientsInit: ingredients, startFrom: 0)
     let gridR = IngredientsGrid(ingredientsInit: ingredients, startFrom: 6)
-    
-    var itemsSelected = [Ingredient]()
-    var tmpL = 0
-    var tmpR = 0
-    
+        
     override func didMove(to view: SKView) {
         self.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
@@ -67,7 +63,7 @@ class BoxScene: SKScene {
 //        let action = SKAction.setTexture(ordinaryCattos.randomElement()!, resize: true)
 //        cat.run(action)
         
-        resultCat.name = "cat"
+        resultCat.name = "resultCat"
         resultCat.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2 + 20)
         resultCat.zPosition = 11
         resultCat.size.width = 150.0
@@ -85,10 +81,6 @@ class BoxScene: SKScene {
         addChild(box)
         addChild(cat)
         addChild(resultCat)
-        
-        //        for ingredient in ingredients {
-        //            addChild(ingredient)
-        //        }
         
         gridL.zPosition = 13
         gridL.position = CGPoint (x:frame.minX + frame.maxX*0.12, y:frame.midY)
@@ -122,6 +114,7 @@ class BoxScene: SKScene {
 
             }
         }
+        
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -140,204 +133,280 @@ class BoxScene: SKScene {
             self.lastUpdate = currentTime
         }
         
-        if ((gridL.elementsMoved + gridR.elementsMoved) == 3) {
-//            tmpL = gridL.elementsMoved
-//            tmpR = gridR.elementsMoved
-            
+        if (gridL.itemsSelected.count + gridR.itemsSelected.count < 3) {
+            gridL.elementsMoved = gridL.itemsSelected.count
+            gridR.elementsMoved = gridR.itemsSelected.count
+        } else {
             gridL.elementsMoved = 3
             gridR.elementsMoved = 3
         }
-        else if ((gridL.elementsMoved + gridR.elementsMoved) < 3) {
-            for rowIndex in 0...2 {
-                for colIndex in 0...1 {
-                    if gridL.ingredients[rowIndex][colIndex].moved {
-                        itemsSelected.append(gridL.ingredients[rowIndex][colIndex])
-                    } else {
-                        if let index = itemsSelected.firstIndex(of: gridL.ingredients[rowIndex][colIndex]) {
-                            itemsSelected.remove(at: index)
-                        }
-                    }
-                    
-                    if gridR.ingredients[rowIndex][colIndex].moved {
-                        itemsSelected.append(gridR.ingredients[rowIndex][colIndex])
-                    } else {
-                        if let index = itemsSelected.firstIndex(of: gridR.ingredients[rowIndex][colIndex]) {
-                            itemsSelected.remove(at: index)
-                        }
-                    }
-                    
-//                    if itemsSelected.contains(gridL.ingredients[rowIndex][colIndex]) {
-//                        if gridL.ingredients[rowIndex][colIndex].moved == false {
-//                            if let index = itemsSelected.firstIndex(of: gridL.ingredients[rowIndex][colIndex]) {
-//                                itemsSelected.remove(at: index)
-//                            }
-//                        }
-//                    } else {
-//                        if gridL.ingredients[rowIndex][colIndex].moved {
-//                            itemsSelected.append(gridL.ingredients[rowIndex][colIndex])
-//                        }
-//
-//                    }
-//
-//                    if itemsSelected.contains(gridL.ingredients[rowIndex][colIndex]) {
-//                        if gridR.ingredients[rowIndex][colIndex].moved == false {
-//                            if let index = itemsSelected.firstIndex(of: gridR.ingredients[rowIndex][colIndex]) {
-//                                itemsSelected.remove(at: index)
-//                            }
-//                        }
-//                    } else {
-//                        if gridR.ingredients[rowIndex][colIndex].moved {
-//                            itemsSelected.append(gridR.ingredients[rowIndex][colIndex])
-//                        }
-//                    }
-                    
-//                    gridL.ingredients[rowIndex][colIndex].isUserInteractionEnabled = false
-//                    gridR.ingredients[rowIndex][colIndex].isUserInteractionEnabled = false
+        
+        if hasClickClear {
+            for itemsSelect in gridL.itemsSelected {
+                let action = SKAction.move(to: itemsSelect.initialPos, duration: 0.2)
+                itemsSelect.run(action)
+                itemsSelect.moved = false
+                if let index = gridL.itemsSelected.firstIndex(of: itemsSelect) {
+                    gridL.itemsSelected.remove(at: index)
+                }
+            }
+            
+            for itemsSelect in gridR.itemsSelected {
+                let action = SKAction.move(to: itemsSelect.initialPos, duration: 0.2)
+                itemsSelect.run(action)
+                itemsSelect.moved = false
+                if let index = gridR.itemsSelected.firstIndex(of: itemsSelect) {
+                    gridR.itemsSelected.remove(at: index)
                 }
             }
         }
         
-        if hasClickClear {
-            for itemsSelect in self.itemsSelected {
-                let action = SKAction.move(to: itemsSelect.initialPos, duration: 0.2)
-                itemsSelect.run(action)
-                itemsSelect.moved = false
-                self.gridL.elementsMoved = 0
-                self.gridR.elementsMoved = 0
-            }
-            itemsSelected.removeAll()
-        }
-        
         if self.isCombining {
-            if itemsSelected.count > 0 {
+            if gridL.itemsSelected.count + gridR.itemsSelected.count > 0 {
                 self.cat.alpha = 0
                 self.resultCat.alpha = 1
-                switch(itemsSelected.count) {
+                
+                switch(gridL.itemsSelected.count + gridR.itemsSelected.count) {
                 case 1:
-                    for cat in firstTierCats {
-                        if (cat.value.2.contains(itemsSelected[0].name!)) {
-                            self.resultCat.name = cat.key
-                            self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
-                            
-                            var isUpdatingScore = true {
-                                didSet {
-                                    if isUpdatingScore {
-                                        updateScore(tier: 1)
-                                        score.text = "Score: \(gameLogic.currentScore)"
-                                        isUpdatingScore = false
-                                    } else {
-                                        
-                                    }
-                                }
-                            }
-                            break
-                        }
-                    }
+                    self.resultCat.tier = 1
+                    changeCatTexture(catTier: 1)
+                    updateScore(tier: self.resultCat.tier!)
                     break
                 case 2:
-                    for cat in secondTierCats {
-                        if (cat.value.2.contains(itemsSelected[0].name!) && cat.value.2.contains(itemsSelected[1].name!)) {
-                            self.resultCat.name = cat.key
-                            self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
-                            
-                            var isUpdatingScore = true {
-                                didSet {
-                                    if isUpdatingScore {
-                                        updateScore(tier: 2)
-                                        score.text = "Score: \(gameLogic.currentScore)"
-                                        isUpdatingScore = false
-                                    } else {
-                                        
-                                    }
-                                }
-                            }
-                            break
-                        }
-                        else {
-                            self.resultCat.name = "Cat-astrophe"
-                            self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
-                            
-                            var isUpdatingScore = true {
-                                didSet {
-                                    if isUpdatingScore {
-                                        updateScore(tier: -1)
-                                        score.text = "Score: \(gameLogic.currentScore)"
-                                        isUpdatingScore = false
-                                    } else {
-                                        
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    self.resultCat.tier = 2
+                    changeCatTexture(catTier: 2)
+                    updateScore(tier: self.resultCat.tier!)
                     break
                 case 3:
-                    for cat in thirdTierCats {
-                        if (cat.value.2.contains(itemsSelected[0].name!) && cat.value.2.contains(itemsSelected[1].name!) && cat.value.2.contains(itemsSelected[2].name!)) {
-                            self.resultCat.name = cat.key
-                            self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
-                            var isUpdatingScore = true {
-                                didSet {
-                                    if isUpdatingScore {
-                                        updateScore(tier: 3)
-                                        score.text = "Score: \(gameLogic.currentScore)"
-                                        isUpdatingScore = false
-                                    } else {
-                                        
-                                    }
-                                }
-                            }
-                            break
-                        } else {
-                            self.resultCat.name = "Cat-astrophe"
-                            self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
-                            var isUpdatingScore = true {
-                                didSet {
-                                    if isUpdatingScore {
-                                        updateScore(tier: -1)
-                                        score.text = "Score: \(gameLogic.currentScore)"
-                                        isUpdatingScore = false
-                                    } else {
-                                        
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    self.resultCat.tier = 3
+                    changeCatTexture(catTier: 3)
+                    updateScore(tier: self.resultCat.tier!)
                     break
                 default:
                     break
                 }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    for itemsSelect in self.itemsSelected {
-                        let action = SKAction.move(to: itemsSelect.initialPos, duration: 0.2)
-                        itemsSelect.run(action)
-                        itemsSelect.moved = false
-                        self.gridL.elementsMoved = 0
-                        self.gridR.elementsMoved = 0
-                    }
-                    self.itemsSelected.removeAll()
-                }
             }
-            
         } else {
-            //            let action = SKAction.setTexture(ordinaryCattos.randomElement()!, resize: true)
-            //            cat.run(action)
-//            if self.solution == self.resultCat.name {
-//                self.updateScore(tier: 2)
-//                score.text = "Score: \(gameLogic.currentScore)"
-//                self.resultCat.name = "cat"
-//            }
-            
             self.cat.alpha = 1
             self.resultCat.alpha = 0
+
+            hasClickClear = true
             
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.hasClickClear = false
+            }
         }
+        
+//        if self.isCombining {
+//            if gridL.elementsMoved + gridR.elementsMoved > 0 {
+//                self.cat.alpha = 0
+//                self.resultCat.alpha = 1
+//                switch(gridL.elementsMoved + gridR.elementsMoved) {
+//                case 1:
+//
+//                    for cat in firstTierCats {
+//                        if (cat.value.2.contains(gridL.itemsSelected[0].name!)) {
+//                            self.resultCat.name = cat.key
+//                            self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
+//                            self.resultCat.tier = 1
+//                            break
+//                        }
+//                    }
+//                    break
+//                case 2:
+//                    print(itemsSelected.count)
+//
+//                    for cat in secondTierCats {
+//                        if (cat.value.2.contains(itemsSelected[0].name!) && cat.value.2.contains(itemsSelected[1].name!)) {
+//                            self.resultCat.name = cat.key
+//                            self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
+//                            self.resultCat.tier = 2
+//                            break
+//                        }
+//                        else {
+//                            self.resultCat.name = "Cat-astrophe"
+//                            self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
+//                            self.resultCat.tier = -1
+//                        }
+//                    }
+//                    break
+//                case 6:
+//                    print(itemsSelected.count)
+//                    for cat in thirdTierCats {
+//                        if (cat.value.2.contains(itemsSelected[0].name!) && cat.value.2.contains(itemsSelected[1].name!) && cat.value.2.contains(itemsSelected[2].name!)) {
+//                            self.resultCat.name = cat.key
+//                            self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
+//                            self.resultCat.tier = 3
+//                            break
+//                        } else {
+//                            self.resultCat.name = "Cat-astrophe"
+//                            self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
+//                            self.resultCat.tier = -1
+//                        }
+//                    }
+//                    break
+//                default:
+//                    break
+//                }
+//
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                    for itemsSelect in self.itemsSelected {
+//                        let action = SKAction.move(to: itemsSelect.initialPos, duration: 0.2)
+//                        itemsSelect.run(action)
+//                        itemsSelect.moved = false
+//                        self.gridL.elementsMoved = 0
+//                        self.gridR.elementsMoved = 0
+//                    }
+//                    self.itemsSelected.removeAll()
+//                }
+//            }
+//
+//        } else {
+//            //            let action = SKAction.setTexture(ordinaryCattos.randomElement()!, resize: true)
+//            //            cat.run(action)
+//            if self.solution == self.resultCat.name {
+//                self.updateScore(tier: resultCat.tier!)
+//                score.text = "Score: \(gameLogic.currentScore)"
+//                self.resultCat.name = "resultCat"
+//            }
+//
+//            self.cat.alpha = 1
+//            self.resultCat.alpha = 0
+//
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                self.resultCat.tier = 0
+//            }
+//        }
     }
     
     func updateScore(tier: Int) {
         gameLogic.score(points: tier)
-        self.resultCat.name = ""
+        self.resultCat.name = "resultCat"
+    }
+    
+    func changeCatTexture(catTier: Int) {
+        switch(catTier){
+        case 1:
+            if (gridL.itemsSelected.count == 0) {
+                for cat in firstTierCats {
+                    if (cat.value.2.contains(gridR.itemsSelected[0].name!)) {
+                        self.resultCat.name = cat.key
+                        self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
+                        
+                        break
+                    }
+                }
+            } else {
+                for cat in firstTierCats {
+                    if (cat.value.2.contains(gridL.itemsSelected[0].name!)) {
+                        self.resultCat.name = cat.key
+                        self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
+                        
+                        break
+                    }
+                }
+            }
+            break
+        case 2:
+            if (gridL.itemsSelected.count == 0) {
+                for cat in secondTierCats {
+                    if (cat.value.2.contains(gridR.itemsSelected[0].name!) && cat.value.2.contains(gridR.itemsSelected[1].name!)) {
+                        self.resultCat.name = cat.key
+                        self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
+                                                
+                        break
+                    } else {
+                        self.resultCat.name = "Cat-astrophe"
+                        self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
+                        self.resultCat.tier = -1
+                    }
+                }
+            } else if (gridR.itemsSelected.count == 0) {
+                for cat in secondTierCats {
+                    if (cat.value.2.contains(gridL.itemsSelected[0].name!) && cat.value.2.contains(gridL.itemsSelected[1].name!)) {
+                        self.resultCat.name = cat.key
+                        self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
+                        
+                        break
+                    } else {
+                        self.resultCat.name = "Cat-astrophe"
+                        self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
+                        self.resultCat.tier = -1
+                    }
+                }
+            } else {
+                for cat in secondTierCats {
+                    if (cat.value.2.contains(gridL.itemsSelected[0].name!) && cat.value.2.contains(gridR.itemsSelected[0].name!)) {
+                        self.resultCat.name = cat.key
+                        self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
+                        
+                        break
+                    } else {
+                        self.resultCat.name = "Cat-astrophe"
+                        self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
+                        self.resultCat.tier = -1
+                    }
+                }
+            }
+            break
+        case 3:
+            if (gridL.itemsSelected.count == 0) {
+                for cat in thirdTierCats {
+                    if (cat.value.2.contains(gridR.itemsSelected[0].name!) && cat.value.2.contains(gridR.itemsSelected[1].name!) && cat.value.2.contains(gridR.itemsSelected[2].name!)) {
+                        self.resultCat.name = cat.key
+                        self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
+                        
+                        break
+                    } else {
+                        self.resultCat.name = "Cat-astrophe"
+                        self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
+                        self.resultCat.tier = -1
+                    }
+                }
+            } else if (gridR.itemsSelected.count == 0) {
+                for cat in thirdTierCats {
+                    if (cat.value.2.contains(gridL.itemsSelected[0].name!) && cat.value.2.contains(gridL.itemsSelected[1].name!) && cat.value.2.contains(gridL.itemsSelected[2].name!)) {
+                        self.resultCat.name = cat.key
+                        self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
+                        
+                        break
+                    } else {
+                        self.resultCat.name = "Cat-astrophe"
+                        self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
+                        self.resultCat.tier = -1
+                    }
+                }
+            } else if (gridL.itemsSelected.count == 2 && gridR.itemsSelected.count == 1) {
+                for cat in thirdTierCats {
+                    if (cat.value.2.contains(gridL.itemsSelected[0].name!) && cat.value.2.contains(gridL.itemsSelected[1].name!) && cat.value.2.contains(gridR.itemsSelected[0].name!)) {
+                        print(gridL.itemsSelected[0].name!)
+                        self.resultCat.name = cat.key
+                        self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
+                        
+                        break
+                    } else {
+                        self.resultCat.name = "Cat-astrophe"
+                        self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
+                        self.resultCat.tier = -1
+                    }
+                }
+            } else if (gridL.itemsSelected.count == 1 && gridR.itemsSelected.count == 2) {
+                for cat in thirdTierCats {
+                    if (cat.value.2.contains(gridL.itemsSelected[0].name!) && cat.value.2.contains(gridR.itemsSelected[0].name!) && cat.value.2.contains(gridR.itemsSelected[1].name!)) {
+                        self.resultCat.name = cat.key
+                        self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
+                        
+                        break
+                    } else {
+                        self.resultCat.name = "Cat-astrophe"
+                        self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
+                        self.resultCat.tier = -1
+                    }
+                }
+            }
+            break
+        default:
+            break
+        }
     }
 }

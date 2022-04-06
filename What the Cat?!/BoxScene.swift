@@ -150,30 +150,46 @@ class BoxScene: SKScene {
         else if ((gridL.elementsMoved + gridR.elementsMoved) < 3) {
             for rowIndex in 0...2 {
                 for colIndex in 0...1 {
-                    if itemsSelected.contains(gridL.ingredients[rowIndex][colIndex]) {
-                        if gridL.ingredients[rowIndex][colIndex].moved == false {
-                            if let index = itemsSelected.firstIndex(of: gridL.ingredients[rowIndex][colIndex]) {
-                                itemsSelected.remove(at: index)
-                            }
-                        }
+                    if gridL.ingredients[rowIndex][colIndex].moved {
+                        itemsSelected.append(gridL.ingredients[rowIndex][colIndex])
                     } else {
-                        if gridL.ingredients[rowIndex][colIndex].moved {
-                            itemsSelected.append(gridL.ingredients[rowIndex][colIndex])
+                        if let index = itemsSelected.firstIndex(of: gridL.ingredients[rowIndex][colIndex]) {
+                            itemsSelected.remove(at: index)
                         }
-                        
                     }
                     
-                    if itemsSelected.contains(gridL.ingredients[rowIndex][colIndex]) {
-                        if gridR.ingredients[rowIndex][colIndex].moved == false {
-                            if let index = itemsSelected.firstIndex(of: gridR.ingredients[rowIndex][colIndex]) {
-                                itemsSelected.remove(at: index)
-                            }
-                        }
+                    if gridR.ingredients[rowIndex][colIndex].moved {
+                        itemsSelected.append(gridR.ingredients[rowIndex][colIndex])
                     } else {
-                        if gridR.ingredients[rowIndex][colIndex].moved {
-                            itemsSelected.append(gridR.ingredients[rowIndex][colIndex])
+                        if let index = itemsSelected.firstIndex(of: gridR.ingredients[rowIndex][colIndex]) {
+                            itemsSelected.remove(at: index)
                         }
                     }
+                    
+//                    if itemsSelected.contains(gridL.ingredients[rowIndex][colIndex]) {
+//                        if gridL.ingredients[rowIndex][colIndex].moved == false {
+//                            if let index = itemsSelected.firstIndex(of: gridL.ingredients[rowIndex][colIndex]) {
+//                                itemsSelected.remove(at: index)
+//                            }
+//                        }
+//                    } else {
+//                        if gridL.ingredients[rowIndex][colIndex].moved {
+//                            itemsSelected.append(gridL.ingredients[rowIndex][colIndex])
+//                        }
+//
+//                    }
+//
+//                    if itemsSelected.contains(gridL.ingredients[rowIndex][colIndex]) {
+//                        if gridR.ingredients[rowIndex][colIndex].moved == false {
+//                            if let index = itemsSelected.firstIndex(of: gridR.ingredients[rowIndex][colIndex]) {
+//                                itemsSelected.remove(at: index)
+//                            }
+//                        }
+//                    } else {
+//                        if gridR.ingredients[rowIndex][colIndex].moved {
+//                            itemsSelected.append(gridR.ingredients[rowIndex][colIndex])
+//                        }
+//                    }
                     
 //                    gridL.ingredients[rowIndex][colIndex].isUserInteractionEnabled = false
 //                    gridR.ingredients[rowIndex][colIndex].isUserInteractionEnabled = false
@@ -293,7 +309,7 @@ class BoxScene: SKScene {
                     break
                 }
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     for itemsSelect in self.itemsSelected {
                         let action = SKAction.move(to: itemsSelect.initialPos, duration: 0.2)
                         itemsSelect.run(action)

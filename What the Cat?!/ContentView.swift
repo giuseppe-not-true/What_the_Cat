@@ -58,7 +58,7 @@ struct ContentView: View {
                                 hasClickClear = true
                             }
                             
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                 scene.hasClickClear = false
                                 hasClickClear = false
                             }
@@ -93,12 +93,12 @@ struct ContentView: View {
                                 isCombining = true
                                 scene.isCombining = true
                                 
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                     scene.isCombining = false
                                     isCombining = false
                                 }
                                 
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8){
                                     withAnimation {
                                         isShowingQuest = true
                                     }

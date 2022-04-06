@@ -170,117 +170,49 @@ class BoxScene: SKScene {
                 case 1:
                     self.resultCat.tier = 1
                     changeCatTexture(catTier: 1)
-                    updateScore(tier: self.resultCat.tier!)
                     break
                 case 2:
                     self.resultCat.tier = 2
                     changeCatTexture(catTier: 2)
-                    updateScore(tier: self.resultCat.tier!)
                     break
                 case 3:
                     self.resultCat.tier = 3
                     changeCatTexture(catTier: 3)
-                    updateScore(tier: self.resultCat.tier!)
                     break
                 default:
                     break
                 }
+                
+                hasClickClear = true
+
+                if self.solution == self.resultCat.name && self.resultCat.tier != -1 {
+                    updateScore(tier: self.resultCat.tier!)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.isCombining = false
+                    }
+                }
+//                else if self.resultCat.tier == -1 {
+//                    updateScore(tier: self.resultCat.tier!)
+//                    
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                        self.isCombining = false
+//                    }
+//                }
             }
         } else {
             self.cat.alpha = 1
             self.resultCat.alpha = 0
-
-            hasClickClear = true
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            if hasClickClear {
                 self.hasClickClear = false
             }
         }
-        
-//        if self.isCombining {
-//            if gridL.elementsMoved + gridR.elementsMoved > 0 {
-//                self.cat.alpha = 0
-//                self.resultCat.alpha = 1
-//                switch(gridL.elementsMoved + gridR.elementsMoved) {
-//                case 1:
-//
-//                    for cat in firstTierCats {
-//                        if (cat.value.2.contains(gridL.itemsSelected[0].name!)) {
-//                            self.resultCat.name = cat.key
-//                            self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
-//                            self.resultCat.tier = 1
-//                            break
-//                        }
-//                    }
-//                    break
-//                case 2:
-//                    print(itemsSelected.count)
-//
-//                    for cat in secondTierCats {
-//                        if (cat.value.2.contains(itemsSelected[0].name!) && cat.value.2.contains(itemsSelected[1].name!)) {
-//                            self.resultCat.name = cat.key
-//                            self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
-//                            self.resultCat.tier = 2
-//                            break
-//                        }
-//                        else {
-//                            self.resultCat.name = "Cat-astrophe"
-//                            self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
-//                            self.resultCat.tier = -1
-//                        }
-//                    }
-//                    break
-//                case 6:
-//                    print(itemsSelected.count)
-//                    for cat in thirdTierCats {
-//                        if (cat.value.2.contains(itemsSelected[0].name!) && cat.value.2.contains(itemsSelected[1].name!) && cat.value.2.contains(itemsSelected[2].name!)) {
-//                            self.resultCat.name = cat.key
-//                            self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
-//                            self.resultCat.tier = 3
-//                            break
-//                        } else {
-//                            self.resultCat.name = "Cat-astrophe"
-//                            self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
-//                            self.resultCat.tier = -1
-//                        }
-//                    }
-//                    break
-//                default:
-//                    break
-//                }
-//
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                    for itemsSelect in self.itemsSelected {
-//                        let action = SKAction.move(to: itemsSelect.initialPos, duration: 0.2)
-//                        itemsSelect.run(action)
-//                        itemsSelect.moved = false
-//                        self.gridL.elementsMoved = 0
-//                        self.gridR.elementsMoved = 0
-//                    }
-//                    self.itemsSelected.removeAll()
-//                }
-//            }
-//
-//        } else {
-//            //            let action = SKAction.setTexture(ordinaryCattos.randomElement()!, resize: true)
-//            //            cat.run(action)
-//            if self.solution == self.resultCat.name {
-//                self.updateScore(tier: resultCat.tier!)
-//                score.text = "Score: \(gameLogic.currentScore)"
-//                self.resultCat.name = "resultCat"
-//            }
-//
-//            self.cat.alpha = 1
-//            self.resultCat.alpha = 0
-//
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//                self.resultCat.tier = 0
-//            }
-//        }
     }
     
     func updateScore(tier: Int) {
         gameLogic.score(points: tier)
+        score.text = "Score: \(gameLogic.currentScore)"
         self.resultCat.name = "resultCat"
     }
     
@@ -292,7 +224,6 @@ class BoxScene: SKScene {
                     if (cat.value.2.contains(gridR.itemsSelected[0].name!)) {
                         self.resultCat.name = cat.key
                         self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
-                        
                         break
                     }
                 }
@@ -301,7 +232,6 @@ class BoxScene: SKScene {
                     if (cat.value.2.contains(gridL.itemsSelected[0].name!)) {
                         self.resultCat.name = cat.key
                         self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
-                        
                         break
                     }
                 }
@@ -313,7 +243,6 @@ class BoxScene: SKScene {
                     if (cat.value.2.contains(gridR.itemsSelected[0].name!) && cat.value.2.contains(gridR.itemsSelected[1].name!)) {
                         self.resultCat.name = cat.key
                         self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
-                                                
                         break
                     } else {
                         self.resultCat.name = "Cat-astrophe"
@@ -326,7 +255,6 @@ class BoxScene: SKScene {
                     if (cat.value.2.contains(gridL.itemsSelected[0].name!) && cat.value.2.contains(gridL.itemsSelected[1].name!)) {
                         self.resultCat.name = cat.key
                         self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
-                        
                         break
                     } else {
                         self.resultCat.name = "Cat-astrophe"
@@ -339,7 +267,6 @@ class BoxScene: SKScene {
                     if (cat.value.2.contains(gridL.itemsSelected[0].name!) && cat.value.2.contains(gridR.itemsSelected[0].name!)) {
                         self.resultCat.name = cat.key
                         self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
-                        
                         break
                     } else {
                         self.resultCat.name = "Cat-astrophe"
@@ -355,7 +282,6 @@ class BoxScene: SKScene {
                     if (cat.value.2.contains(gridR.itemsSelected[0].name!) && cat.value.2.contains(gridR.itemsSelected[1].name!) && cat.value.2.contains(gridR.itemsSelected[2].name!)) {
                         self.resultCat.name = cat.key
                         self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
-                        
                         break
                     } else {
                         self.resultCat.name = "Cat-astrophe"
@@ -368,7 +294,6 @@ class BoxScene: SKScene {
                     if (cat.value.2.contains(gridL.itemsSelected[0].name!) && cat.value.2.contains(gridL.itemsSelected[1].name!) && cat.value.2.contains(gridL.itemsSelected[2].name!)) {
                         self.resultCat.name = cat.key
                         self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
-                        
                         break
                     } else {
                         self.resultCat.name = "Cat-astrophe"
@@ -382,7 +307,6 @@ class BoxScene: SKScene {
                         print(gridL.itemsSelected[0].name!)
                         self.resultCat.name = cat.key
                         self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
-                        
                         break
                     } else {
                         self.resultCat.name = "Cat-astrophe"
@@ -395,7 +319,6 @@ class BoxScene: SKScene {
                     if (cat.value.2.contains(gridL.itemsSelected[0].name!) && cat.value.2.contains(gridR.itemsSelected[0].name!) && cat.value.2.contains(gridR.itemsSelected[1].name!)) {
                         self.resultCat.name = cat.key
                         self.resultCat.texture = SKTexture(imageNamed: cat.value.1)
-                        
                         break
                     } else {
                         self.resultCat.name = "Cat-astrophe"

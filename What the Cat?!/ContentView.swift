@@ -86,6 +86,7 @@ struct ContentView: View {
                                 isCombining = true
                                 scene.isCombining = true
                                 
+                                
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                     scene.isCombining = false
                                     isCombining = false

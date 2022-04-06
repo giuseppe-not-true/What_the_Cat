@@ -185,20 +185,19 @@ class BoxScene: SKScene {
                 
                 hasClickClear = true
 
-                if self.solution == self.resultCat.name && self.resultCat.tier != -1 {
+                if self.solution == self.resultCat.name {
                     updateScore(tier: self.resultCat.tier!)
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         self.isCombining = false
                     }
+                } else if self.resultCat.name == "Cat-astrophe" {
+                    updateScore(tier: -1)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.isCombining = false
+                    }
                 }
-//                else if self.resultCat.tier == -1 {
-//                    updateScore(tier: self.resultCat.tier!)
-//                    
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                        self.isCombining = false
-//                    }
-//                }
             }
         } else {
             self.cat.alpha = 1
@@ -247,7 +246,7 @@ class BoxScene: SKScene {
                     } else {
                         self.resultCat.name = "Cat-astrophe"
                         self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
-                        self.resultCat.tier = -1
+//                        self.resultCat.tier = -1
                     }
                 }
             } else if (gridR.itemsSelected.count == 0) {
@@ -259,7 +258,7 @@ class BoxScene: SKScene {
                     } else {
                         self.resultCat.name = "Cat-astrophe"
                         self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
-                        self.resultCat.tier = -1
+//                        self.resultCat.tier = -1
                     }
                 }
             } else {
@@ -271,7 +270,7 @@ class BoxScene: SKScene {
                     } else {
                         self.resultCat.name = "Cat-astrophe"
                         self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
-                        self.resultCat.tier = -1
+//                        self.resultCat.tier = -1
                     }
                 }
             }
@@ -286,7 +285,7 @@ class BoxScene: SKScene {
                     } else {
                         self.resultCat.name = "Cat-astrophe"
                         self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
-                        self.resultCat.tier = -1
+//                        self.resultCat.tier = -1
                     }
                 }
             } else if (gridR.itemsSelected.count == 0) {
@@ -298,7 +297,7 @@ class BoxScene: SKScene {
                     } else {
                         self.resultCat.name = "Cat-astrophe"
                         self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
-                        self.resultCat.tier = -1
+//                        self.resultCat.tier = -1
                     }
                 }
             } else if (gridL.itemsSelected.count == 2 && gridR.itemsSelected.count == 1) {
@@ -311,7 +310,7 @@ class BoxScene: SKScene {
                     } else {
                         self.resultCat.name = "Cat-astrophe"
                         self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
-                        self.resultCat.tier = -1
+//                        self.resultCat.tier = -1
                     }
                 }
             } else if (gridL.itemsSelected.count == 1 && gridR.itemsSelected.count == 2) {

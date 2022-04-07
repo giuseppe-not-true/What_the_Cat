@@ -24,6 +24,7 @@
 		238C183F27FAFE3200D48093 /* IngredientsGridModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238C183E27FAFE3200D48093 /* IngredientsGridModel.swift */; };
 		23DCDBAD27EDD4F300ACED5E /* magicParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 23DCDBAC27EDD4F300ACED5E /* magicParticle.sks */; };
 		23F03D1227ECC90D00D035F6 /* ArcadeGameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F03D1127ECC90D00D035F6 /* ArcadeGameLogic.swift */; };
+		D23ECBDF27FF638900A4B0E2 /* SKTAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = D23ECBDE27FF638900A4B0E2 /* SKTAudio.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		D23ECBD827FF56DF00A4B0E2 /* cat-purrfect.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "cat-purrfect.wav"; sourceTree = "<group>"; };
 		D23ECBD927FF56DF00A4B0E2 /* music.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = music.wav; sourceTree = "<group>"; };
 		D23ECBDB27FF56DF00A4B0E2 /* not-cat.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "not-cat.wav"; sourceTree = "<group>"; };
+		D23ECBDE27FF638900A4B0E2 /* SKTAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKTAudio.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 				238A42D827EB7C5B002C4B20 /* BoxModel.swift */,
 				238228E827EA278000AA3987 /* TopLayoutView.swift */,
 				238228E627EA263600AA3987 /* ElementView.swift */,
+				D23ECBDE27FF638900A4B0E2 /* SKTAudio.swift */,
 				238228D827EA177C00AA3987 /* Fonts */,
 				D23ECBDD27FF56F800A4B0E2 /* Audio */,
 				238228CE27EA13B800AA3987 /* Assets.xcassets */,
@@ -217,6 +220,7 @@
 				238228E927EA278000AA3987 /* TopLayoutView.swift in Sources */,
 				238C183F27FAFE3200D48093 /* IngredientsGridModel.swift in Sources */,
 				238228CB27EA13B500AA3987 /* What_the_Cat__App.swift in Sources */,
+				D23ECBDF27FF638900A4B0E2 /* SKTAudio.swift in Sources */,
 				238A42D927EB7C5B002C4B20 /* BoxModel.swift in Sources */,
 				238A42DD27EB7F53002C4B20 /* GridModel.swift in Sources */,
 			);

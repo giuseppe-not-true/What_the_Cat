@@ -23,6 +23,7 @@ class BoxScene: SKScene {
     
     var background = SKSpriteNode(imageNamed: "wall")
     
+//    var audioPlayer = SKNode()
     let errorSound = SKAction.playSoundFileNamed("cat-error.wav", waitForCompletion: true)
     let purrSound = SKAction.playSoundFileNamed("cat-purrfect.wav", waitForCompletion: true)
     let gameOverSound = SKAction.playSoundFileNamed("game-over.wav", waitForCompletion: true)
@@ -184,6 +185,8 @@ class BoxScene: SKScene {
         addChild(gameOverScore)
         addChild(replayLabel)
         addChild(replayButton)
+
+//        createAudioPlayer()
         
     }
     
@@ -339,6 +342,13 @@ class BoxScene: SKScene {
             }
         }
     }
+    
+//    func createAudioPlayer() {
+//        audioPlayer = SKNode()
+//        audioPlayer.name = "audioPlayer"
+//        self.addChild(audioPlayer)
+//        audioPlayer.addChild(backgroundMusic)
+//    }
     
     func updateScore(tier: Int) {
         gameLogic.score(points: tier)

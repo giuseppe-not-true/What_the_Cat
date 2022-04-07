@@ -22,7 +22,7 @@ class BoxScene: SKScene {
     
     var background = SKSpriteNode(imageNamed: "wall")
     
-    var cat = Cat(imageNamed: "catto-1")
+    var cat = Cat(texture: ordinaryCattos.randomElement()!)
     var resultCat = Cat()
     
     var box = Box(imageNamed: "box-open")
@@ -197,6 +197,10 @@ class BoxScene: SKScene {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         self.isCombining = false
                     }
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.cat.texture = ordinaryCattos.randomElement()!
                 }
             }
         } else {

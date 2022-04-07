@@ -22,12 +22,13 @@ struct TopLayout: View {
 //                RoundedRectangle(cornerRadius: 10)
                 Image("button")
                     .resizable()
-                    .frame(width: 500, height: 50, alignment: .center)
+                    .frame(width: 500, height: 70, alignment: .center)
                     .foregroundColor(.accentColor)
                     .overlay {
                         Text(quest)
                             .foregroundColor(.white)
                             .font(.custom("Minecraft", size: 24))
+                            .padding(.horizontal)
                         
                     }
                     .onAppear {

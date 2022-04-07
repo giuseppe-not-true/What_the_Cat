@@ -34,17 +34,11 @@ struct ContentView: View {
                 SpriteView(scene: scene, options: [.allowsTransparency])
                     .frame(alignment: .center)
                     .ignoresSafeArea()
-//                    .onChange(of: scene.resultCat.name) {newValue in
-//                        resultCat = newValue!
-//                    }
-//                    .onChange(of: gameLogic.isGameOver) {_ in
-//                        
-//                    }
                 
                 VStack {
                     TopLayout(score: $score, questLevel: $questLevel, questSolution: $questSolution, isShowingQuest: $isShowingQuest)
                         .padding([.top, .bottom])
-                        .position(x: geometry.size.width/2, y: geometry.frame(in: .global).minY + 80)
+                        .position(x: geometry.size.width/2, y: /*geometry.frame(in: .global).minY + 80*/ geometry.size.height * 0.12)
                         .onAppear {
                             withAnimation {
                                 isShowingQuest = true

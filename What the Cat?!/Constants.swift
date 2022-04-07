@@ -21,17 +21,18 @@ let ingredients = [
     Ingredient(imageNamed: "ingredient-atom"),
     Ingredient(imageNamed: "ingredient-belt"),
     Ingredient(imageNamed: "ingredient-boot"),
-    Ingredient(imageNamed: "ingredient-bow"),
-    Ingredient(imageNamed: "ingredient-bread-jam"),
+    Ingredient(imageNamed: "ingredient-lightbulb"),
     Ingredient(imageNamed: "ingredient-dirt"),
+    Ingredient(imageNamed: "ingredient-bread-jam"),
     Ingredient(imageNamed: "ingredient-discoball"),
     Ingredient(imageNamed: "ingredient-fish"),
-    Ingredient(imageNamed: "ingredient-lightbulb"),
     Ingredient(imageNamed: "ingredient-nekonomicon"),
+    Ingredient(imageNamed: "ingredient-bow"),
     Ingredient(imageNamed: "ingredient-scepter"),
-    Ingredient(imageNamed: "ingredient-sword")]
+    Ingredient(imageNamed: "ingredient-sword")
+]
 
-let ingredientsName = ["atom", "belt", "boot", "bow", "bread-jam", "dirt", "discoball", "fish", "lightbulb", "nekonomicon", "scepter", "sword"]
+let ingredientsName = ["atom", "belt", "boot", "lightbulb", "dirt", "bread-jam", "discoball", "fish", "nekonomicon", "bow", "scepter", "sword"]
 
 //Cat types
 
@@ -88,7 +89,7 @@ let firstLevelQuests: [String: [String]] = [
     "Funky Cat": ["I just want to party!", "ah-ah-ah-ah stayin alive stayin alive… ", "Let’s have some fun!"],
     "Anti-gravitatory Cat": ["I'm studying the paradox of physics, do you have something that can help?", "It’s so hot today, do you have a fan or something?", "If only I had something to make my boat go faster…"],
     "Nuclear Cat": ["I need more energy for my experiments!", "I want a shiny one!", "I want to be easy to find in the dark."],
-    "Eurekat": ["I really need an idea…", "I have the solution on the tip of my tongue…", "?????????"],
+    "Eurekat": ["I really need an idea…", "I have the solution on the tip of my tongue…", "What do you say when you find the perfect cat?"],
     "Shrekat": ["SOMEbody once told me the world is gonna roll me...", "I love dirty kitties.", "I need a cat that likes donkeys."],
     "Chubby Cat": ["I love eating, I want a cat like me!", "I want a slow cat", "I just want to eat and sleep with my cat"],
     "Evil Cat": ["I don’t like “good boys” ", "I drink orange juice after washing my teeths.", "I hate the world! "],

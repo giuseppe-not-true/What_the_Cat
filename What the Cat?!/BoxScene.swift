@@ -39,13 +39,13 @@ class BoxScene: SKScene {
         background.size.height = UIScreen.main.bounds.height
         
         score = SKLabelNode(text: "Score: \(gameLogic.currentScore)")
-        score.position = CGPoint(x: self.frame.size.width/2 - 190, y: self.frame.size.height*0.9)
+        score.position = CGPoint(x: /*self.frame.size.width/2 - 190*/ self.frame.size.width * 0.1, y: self.frame.size.height*0.9)
         score.zPosition = 15
         score.fontSize = 30
         score.fontName = "Minecraft"
         
         timer = SKLabelNode(text: "\(formatter.string(from: gameLogic.sessionDuration)!)")
-        timer.position = CGPoint(x: self.frame.size.width/2 + 220, y: self.frame.size.height*0.9)
+        timer.position = CGPoint(x: self.frame.size.width * 0.9, y: self.frame.size.height*0.9)
         timer.zPosition = 15
         timer.fontSize = 30
         timer.fontName = "Minecraft"
@@ -60,8 +60,6 @@ class BoxScene: SKScene {
         cat.zPosition = 11
         cat.size.width = 150.0
         cat.size.height = 150.0
-//        let action = SKAction.setTexture(ordinaryCattos.randomElement()!, resize: true)
-//        cat.run(action)
         
         resultCat.name = "resultCat"
         resultCat.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2 + 20)
@@ -71,8 +69,14 @@ class BoxScene: SKScene {
         resultCat.alpha = 0
         
         for ingredient in ingredients {
-            ingredient.size.width = 70.0
-            ingredient.size.height = 70.0
+            if ingredient.name == "boot"{
+                ingredient.size.width = 50.0
+                ingredient.size.height = 50.0
+            } else {
+                ingredient.size.width = 60.0
+                ingredient.size.height = 60.0
+            }
+                
         }
         
         addChild(background)
@@ -83,14 +87,14 @@ class BoxScene: SKScene {
         addChild(resultCat)
         
         gridL.zPosition = 13
-        gridL.position = CGPoint (x:frame.minX + frame.maxX*0.12, y:frame.midY)
+        gridL.position = CGPoint (x:frame.minX + frame.maxX*0.19, y:frame.midY - 15)
         addChild(gridL)
         
         gridL.targetPosition.x = 300
         gridL.targetPosition.y = 50
         
         gridR.zPosition = 13
-        gridR.position = CGPoint (x:frame.maxX - frame.maxX*0.12, y:frame.midY)
+        gridR.position = CGPoint (x:frame.maxX - frame.maxX*0.19, y:frame.midY - 15)
         addChild(gridR)
         
         gridR.targetPosition.x = -300
@@ -98,17 +102,21 @@ class BoxScene: SKScene {
         
         for rowIndex in 0...2 {
             for colIndex in 0...1 {
-                gridL.ingredients[rowIndex][colIndex].position = CGPoint(x: (colIndex * 90) - 40, y: (rowIndex * 100) - 100)
+                gridL.ingredients[rowIndex][colIndex].position = CGPoint(x: (colIndex * 120) - 70, y: (rowIndex * 70) - 55)
                 gridL.ingredients[rowIndex][colIndex].initialPos = gridL.ingredients[rowIndex][colIndex].position
                 let leftIngredientName = SKLabelNode(text: gridL.ingredients[rowIndex][colIndex].name)
-                leftIngredientName.position = CGPoint(x: gridL.ingredients[rowIndex][colIndex].position.x, y: gridL.ingredients[rowIndex][colIndex].position.y - 20.0)
+                leftIngredientName.fontName = "Minecraft"
+                leftIngredientName.fontSize = 20
+                leftIngredientName.position = CGPoint(x: gridL.ingredients[rowIndex][colIndex].position.x, y: gridL.ingredients[rowIndex][colIndex].position.y - 42.0)
                 gridL.addChild(gridL.ingredients[rowIndex][colIndex])
                 gridL.addChild(leftIngredientName)
                 
-                gridR.ingredients[rowIndex][colIndex].position = CGPoint(x: (colIndex * -90) + 40, y: (rowIndex * 100) - 100)
+                gridR.ingredients[rowIndex][colIndex].position = CGPoint(x: (colIndex * 120) - 50, y: (rowIndex * 70) - 55)
                 gridR.ingredients[rowIndex][colIndex].initialPos = gridR.ingredients[rowIndex][colIndex].position
                 let rightIngredientName = SKLabelNode(text: gridR.ingredients[rowIndex][colIndex].name)
-                rightIngredientName.position = CGPoint(x: gridR.ingredients[rowIndex][colIndex].position.x, y: gridR.ingredients[rowIndex][colIndex].position.y - 20.0)
+                rightIngredientName.fontName = "Minecraft"
+                rightIngredientName.fontSize = 20
+                rightIngredientName.position = CGPoint(x: gridR.ingredients[rowIndex][colIndex].position.x, y: gridR.ingredients[rowIndex][colIndex].position.y - 42.0)
                 gridR.addChild(gridR.ingredients[rowIndex][colIndex])
                 gridR.addChild(rightIngredientName)
 

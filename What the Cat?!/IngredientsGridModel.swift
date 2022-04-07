@@ -35,7 +35,7 @@ class IngredientsGrid: SKSpriteNode {
         
         self.targetPosition = CGPoint(x: 0, y: 0)
         
-        super.init(texture: SKTexture(imageNamed: "Shelf"), color: UIColor.clear, size: CGSize(width: 150, height: 300))
+        super.init(texture: SKTexture(imageNamed: "Shelf"), color: UIColor.clear, size: CGSize(width: 270, height: 230))
         self.isUserInteractionEnabled = true
         
     }

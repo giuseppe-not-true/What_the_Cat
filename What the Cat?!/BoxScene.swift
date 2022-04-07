@@ -19,13 +19,15 @@ class BoxScene: SKScene {
     var solution = ""
     var score = SKLabelNode()
     var timer = SKLabelNode()
+    var message = SKLabelNode()
     
     var background = SKSpriteNode(imageNamed: "wall")
     
     var cat = Cat(texture: ordinaryCattos.randomElement()!)
     var resultCat = Cat()
     
-    var box = Box(imageNamed: "box-open")
+    var boxOpen = Box(imageNamed: "box-open")
+    var boxClosed = Box(imageNamed: "box")
     
     let gridL = IngredientsGrid(ingredientsInit: ingredients, startFrom: 0)
     let gridR = IngredientsGrid(ingredientsInit: ingredients, startFrom: 6)
@@ -39,21 +41,34 @@ class BoxScene: SKScene {
         background.size.height = UIScreen.main.bounds.height
         
         score = SKLabelNode(text: "Score: \(gameLogic.currentScore)")
-        score.position = CGPoint(x: /*self.frame.size.width/2 - 190*/ self.frame.size.width * 0.1, y: self.frame.size.height*0.9)
+        score.position = CGPoint(x: self.frame.size.width * 0.1, y: self.frame.size.height*0.85)
         score.zPosition = 15
         score.fontSize = 30
         score.fontName = "Minecraft"
         
         timer = SKLabelNode(text: "\(formatter.string(from: gameLogic.sessionDuration)!)")
-        timer.position = CGPoint(x: self.frame.size.width * 0.9, y: self.frame.size.height*0.9)
+        timer.position = CGPoint(x: self.frame.size.width * 0.9, y: self.frame.size.height*0.85)
         timer.zPosition = 15
         timer.fontSize = 30
         timer.fontName = "Minecraft"
         
-        box.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2)
-        box.zPosition = 10
-        box.size.width = 240.0
-        box.size.height = 240.0
+        message = SKLabelNode(text: "WRONG!")
+        message.position = CGPoint(x: self.frame.width/2, y: self.frame.height * 0.25)
+        message.alpha = 0
+        message.zPosition = 15
+        message.fontSize = 30
+        message.fontName = "Minecraft"
+        
+        boxOpen.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2 - 10)
+        boxOpen.zPosition = 10
+        boxOpen.size.width = 480.0
+        boxOpen.size.height = 240.0
+        
+        boxClosed.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2 - 10)
+        boxClosed.zPosition = 10
+        boxClosed.alpha = 0
+        boxClosed.size.width = 480.0
+        boxClosed.size.height = 240.0
         
         cat.name = "cat"
         cat.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2 + 20)
@@ -82,7 +97,9 @@ class BoxScene: SKScene {
         addChild(background)
         addChild(score)
         addChild(timer)
-        addChild(box)
+        addChild(message)
+        addChild(boxOpen)
+        addChild(boxClosed)
         addChild(cat)
         addChild(resultCat)
         
@@ -90,15 +107,15 @@ class BoxScene: SKScene {
         gridL.position = CGPoint (x:frame.minX + frame.maxX*0.19, y:frame.midY - 15)
         addChild(gridL)
         
-        gridL.targetPosition.x = 300
-        gridL.targetPosition.y = 50
+        gridL.targetPosition.x = 200
+        gridL.targetPosition.y = 60
         
         gridR.zPosition = 13
         gridR.position = CGPoint (x:frame.maxX - frame.maxX*0.19, y:frame.midY - 15)
         addChild(gridR)
         
-        gridR.targetPosition.x = -300
-        gridR.targetPosition.y = 50
+        gridR.targetPosition.x = -200
+        gridR.targetPosition.y = 60
         
         for rowIndex in 0...2 {
             for colIndex in 0...1 {
@@ -171,49 +188,78 @@ class BoxScene: SKScene {
         
         if self.isCombining {
             if gridL.itemsSelected.count + gridR.itemsSelected.count > 0 {
+                self.boxOpen.alpha = 0
+                self.boxClosed.alpha = 1
                 self.cat.alpha = 0
-                self.resultCat.alpha = 1
                 
-                switch(gridL.itemsSelected.count + gridR.itemsSelected.count) {
-                case 1:
-                    self.resultCat.tier = 1
-                    changeCatTexture(catTier: 1)
-                    break
-                case 2:
-                    self.resultCat.tier = 2
-                    changeCatTexture(catTier: 2)
-                    break
-                case 3:
-                    self.resultCat.tier = 3
-                    changeCatTexture(catTier: 3)
-                    break
-                default:
-                    break
-                }
-                
-                hasClickClear = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    self.boxOpen.alpha = 1
+                    self.boxClosed.alpha = 0
+                    self.resultCat.alpha = 1
+                    
+                    switch(self.gridL.itemsSelected.count + self.gridR.itemsSelected.count) {
+                    case 1:
+                        self.resultCat.tier = 1
+                        self.changeCatTexture(catTier: 1)
+                        break
+                    case 2:
+                        self.resultCat.tier = 2
+                        self.changeCatTexture(catTier: 2)
+                        break
+                    case 3:
+                        self.resultCat.tier = 3
+                        self.changeCatTexture(catTier: 3)
+                        break
+                    default:
+                        break
+                    }
+                    
+                    self.hasClickClear = true
 
-                if self.solution == self.resultCat.name {
-                    updateScore(tier: self.resultCat.tier!)
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        self.isCombining = false
+                    if self.solution == self.resultCat.name {
+                        self.message.text = "PURRRFECT!"
+                        let fade = SKAction.fadeIn(withDuration: 0.2)
+                        self.message.run(fade)
+                        self.updateScore(tier: self.resultCat.tier!)
+                        self.cat.texture = ordinaryCattos.randomElement()!
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            self.isCombining = false
+                            let fade = SKAction.fadeOut(withDuration: 0.1)
+                            self.message.run(fade)
+                        }
+                    } else if self.resultCat.name == "Cat-astrophe" {
+                        self.message.text = "WHAT HAVE YOU DONE..."
+                        let fade = SKAction.fadeIn(withDuration: 0.1)
+                        self.message.run(fade)
+                        self.updateScore(tier: -1)
+                        self.cat.texture = ordinaryCattos.randomElement()!
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            self.isCombining = false
+                            let fade = SKAction.fadeOut(withDuration: 0.1)
+                            self.message.run(fade)
+                        }
+                    } else {
+                        let fade = SKAction.fadeIn(withDuration: 0.1)
+                        self.message.run(fade)
+                        self.cat.texture = ordinaryCattos.randomElement()!
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            self.isCombining = false
+                            let fade = SKAction.fadeOut(withDuration: 0.1)
+                            self.message.run(fade)
+                        }
                     }
-                } else if self.resultCat.name == "Cat-astrophe" {
-                    updateScore(tier: -1)
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        self.isCombining = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) {
+                        self.cat.alpha = 1
+                        self.resultCat.alpha = 0
+                        self.message.text = "WRONG!"
                     }
-                }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    self.cat.texture = ordinaryCattos.randomElement()!
                 }
             }
         } else {
-            self.cat.alpha = 1
-            self.resultCat.alpha = 0
             
             if hasClickClear {
                 self.hasClickClear = false
@@ -258,7 +304,6 @@ class BoxScene: SKScene {
                     } else {
                         self.resultCat.name = "Cat-astrophe"
                         self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
-//                        self.resultCat.tier = -1
                     }
                 }
             } else if (gridR.itemsSelected.count == 0) {
@@ -270,7 +315,6 @@ class BoxScene: SKScene {
                     } else {
                         self.resultCat.name = "Cat-astrophe"
                         self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
-//                        self.resultCat.tier = -1
                     }
                 }
             } else {
@@ -282,7 +326,6 @@ class BoxScene: SKScene {
                     } else {
                         self.resultCat.name = "Cat-astrophe"
                         self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
-//                        self.resultCat.tier = -1
                     }
                 }
             }
@@ -297,7 +340,6 @@ class BoxScene: SKScene {
                     } else {
                         self.resultCat.name = "Cat-astrophe"
                         self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
-//                        self.resultCat.tier = -1
                     }
                 }
             } else if (gridR.itemsSelected.count == 0) {
@@ -309,7 +351,6 @@ class BoxScene: SKScene {
                     } else {
                         self.resultCat.name = "Cat-astrophe"
                         self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
-//                        self.resultCat.tier = -1
                     }
                 }
             } else if (gridL.itemsSelected.count == 2 && gridR.itemsSelected.count == 1) {
@@ -322,7 +363,6 @@ class BoxScene: SKScene {
                     } else {
                         self.resultCat.name = "Cat-astrophe"
                         self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
-//                        self.resultCat.tier = -1
                     }
                 }
             } else if (gridL.itemsSelected.count == 1 && gridR.itemsSelected.count == 2) {
@@ -334,7 +374,6 @@ class BoxScene: SKScene {
                     } else {
                         self.resultCat.name = "Cat-astrophe"
                         self.resultCat.texture = SKTexture(imageNamed: mistakesCats["Cat-astrophe"]!.1)
-                        self.resultCat.tier = -1
                     }
                 }
             }

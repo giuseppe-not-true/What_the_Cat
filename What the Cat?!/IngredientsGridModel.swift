@@ -53,7 +53,6 @@ class IngredientsGrid: SKSpriteNode {
                 if node != self {
                     if tempNode.position != targetPosition {
                         if elementsMoved < 3 {
-                            
                             let action = SKAction.move(to: targetPosition, duration: 0.5)
                             tempNode.run(action)
                             tempNode.moved = true

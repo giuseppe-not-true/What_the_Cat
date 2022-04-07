@@ -14,8 +14,8 @@
             filePath = "What the Cat?!/BoxScene.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "266"
-            endingLineNumber = "266"
+            startingLineNumber = "311"
+            endingLineNumber = "311"
             landmarkName = "changeCatTexture(catTier:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "What the Cat?!/BoxScene.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "279"
-            endingLineNumber = "279"
+            startingLineNumber = "323"
+            endingLineNumber = "323"
             landmarkName = "changeCatTexture(catTier:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "What the Cat?!/BoxScene.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "251"
-            endingLineNumber = "251"
+            startingLineNumber = "297"
+            endingLineNumber = "297"
             landmarkName = "changeCatTexture(catTier:)"
             landmarkType = "7">
          </BreakpointContent>

@@ -338,6 +338,8 @@ class BoxScene: SKScene {
             if node.name == "replayLabel" || node.name == "replayButton" {
                 if gameLogic.isGameOver {
                     gameLogic.isGameOver = false
+//                    updateScore(tier: -gameLogic.currentScore)
+//                    score.text = "Score: \(gameLogic.currentScore)"
                     gameLogic.setUpGame()
                 }
             }

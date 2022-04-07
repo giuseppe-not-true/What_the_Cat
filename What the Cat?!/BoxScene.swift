@@ -23,6 +23,12 @@ class BoxScene: SKScene {
     
     var background = SKSpriteNode(imageNamed: "wall")
     
+    let errorSound = SKAction.playSoundFileNamed("cat-error.wav", waitForCompletion: true)
+    let purrSound = SKAction.playSoundFileNamed("cat-purrfect.wav", waitForCompletion: true)
+    let gameOverSound = SKAction.playSoundFileNamed("game-over.wav", waitForCompletion: true)
+    let noCatSound = SKAction.playSoundFileNamed("no-cat.wav", waitForCompletion: true)
+    let backgroundMusic = SKAudioNode(fileNamed: "music.wav")
+    
     var gameOver = SKSpriteNode(imageNamed: "vapor-bg")
     var replayButton = SKSpriteNode(imageNamed: "button")
     var replayLabel = SKLabelNode()

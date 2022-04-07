@@ -12,7 +12,7 @@ import SpriteKit
 enum GameState {
     case mainScreen
     case playing
-    case gameOver
+//    case gameOver
 }
 
 //Ingredients types

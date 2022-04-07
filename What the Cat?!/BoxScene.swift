@@ -10,7 +10,7 @@ import SpriteKit
 import AVFoundation
 
 class BoxScene: SKScene {
-    var gameLogic = ArcadeGameLogic.shared
+    @ObservedObject var gameLogic = ArcadeGameLogic.shared
     var lastUpdate: TimeInterval = 0
     let formatter = DateComponentsFormatter()
     

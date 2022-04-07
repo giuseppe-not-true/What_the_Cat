@@ -23,6 +23,11 @@ class BoxScene: SKScene {
     
     var background = SKSpriteNode(imageNamed: "wall")
     
+    var gameOver = SKSpriteNode(imageNamed: "vapor-bg")
+    var replayButton = SKSpriteNode(imageNamed: "button")
+    var replayLabel = SKLabelNode()
+    var gameOverScore = SKLabelNode()
+    
     var cat = Cat(texture: ordinaryCattos.randomElement()!)
     var resultCat = Cat()
     
@@ -39,6 +44,34 @@ class BoxScene: SKScene {
         background.zPosition = 9
         background.size.width = UIScreen.main.bounds.width
         background.size.height = UIScreen.main.bounds.height
+        
+        gameOver.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2)
+        gameOver.zPosition = 29
+        gameOver.alpha = 0
+        gameOver.size.width = UIScreen.main.bounds.width
+        gameOver.size.height = UIScreen.main.bounds.height
+        
+        gameOverScore.text = "Your score: \(gameLogic.currentScore)"
+        gameOverScore.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2 + 40)
+        gameOverScore.zPosition = 30
+        gameOverScore.alpha = 0
+        gameOverScore.fontSize = 60
+        gameOverScore.fontName = "Minecraft"
+        
+        replayButton.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2 - 30)
+        replayButton.name = "replayButton"
+        replayButton.zPosition = 30
+        replayButton.alpha = 0
+        replayButton.size.width = 200
+        replayButton.size.height = 80
+        
+        replayLabel.text = "Replay"
+        replayLabel.name = "replayLabel"
+        replayLabel.zPosition = 31
+        replayLabel.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2 - 40)
+        replayLabel.alpha = 0
+        replayLabel.fontSize = 30
+        replayLabel.fontName = "Minecraft"
         
         score = SKLabelNode(text: "Score: \(gameLogic.currentScore)")
         score.position = CGPoint(x: self.frame.size.width * 0.1, y: self.frame.size.height*0.85)
@@ -140,6 +173,12 @@ class BoxScene: SKScene {
             }
         }
         
+        
+        addChild(gameOver)
+        addChild(gameOverScore)
+        addChild(replayLabel)
+        addChild(replayButton)
+        
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -149,8 +188,6 @@ class BoxScene: SKScene {
         let timeElapsedSinceLastUpdate = currentTime - self.lastUpdate
         
         if timeElapsedSinceLastUpdate <= 0 {
-            gameLogic.isGameOver = true
-            timer.text = "Time is over"
         } else {
             // Decrease the length of the game session at the game logic
             self.gameLogic.decreaseSessionTime(by: timeElapsedSinceLastUpdate)
@@ -164,6 +201,22 @@ class BoxScene: SKScene {
         } else {
             gridL.elementsMoved = 3
             gridR.elementsMoved = 3
+        }
+        
+        if gameLogic.sessionDuration <= 0 {
+            gameLogic.isGameOver = true
+        }
+        
+        if gameLogic.isGameOver {
+            gameOver.alpha = 1
+            gameOverScore.alpha = 1
+            replayLabel.alpha = 1
+            replayButton.alpha = 1
+        } else {
+            gameOver.alpha = 0
+            gameOverScore.alpha = 0
+            replayLabel.alpha = 0
+            replayButton.alpha = 0
         }
         
         if hasClickClear {
@@ -263,6 +316,20 @@ class BoxScene: SKScene {
             
             if hasClickClear {
                 self.hasClickClear = false
+            }
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+            let position = touch.location(in:self)
+            let node = atPoint(position)
+            
+            if node.name == "replayLabel" || node.name == "replayButton" {
+                if gameLogic.isGameOver {
+                    gameLogic.isGameOver = false
+                    gameLogic.setUpGame()
+                }
             }
         }
     }

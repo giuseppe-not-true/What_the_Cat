@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		23110DD327FEF2C300D354E1 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23110DD227FEF2C300D354E1 /* MenuView.swift */; };
-		23110DD527FEFB9D00D354E1 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23110DD427FEFB9D00D354E1 /* GameOverScene.swift */; };
 		238228CB27EA13B500AA3987 /* What_the_Cat__App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238228CA27EA13B500AA3987 /* What_the_Cat__App.swift */; };
 		238228CD27EA13B500AA3987 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238228CC27EA13B500AA3987 /* ContentView.swift */; };
 		238228CF27EA13B800AA3987 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 238228CE27EA13B800AA3987 /* Assets.xcassets */; };
@@ -30,7 +29,6 @@
 
 /* Begin PBXFileReference section */
 		23110DD227FEF2C300D354E1 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
-		23110DD427FEFB9D00D354E1 /* GameOverScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		238228C727EA13B500AA3987 /* What the Cat?!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "What the Cat?!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		238228CA27EA13B500AA3987 /* What_the_Cat__App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = What_the_Cat__App.swift; sourceTree = "<group>"; };
 		238228CC27EA13B500AA3987 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -89,7 +87,6 @@
 				23DCDBAC27EDD4F300ACED5E /* magicParticle.sks */,
 				238A42DA27EB7C83002C4B20 /* CatModel.swift */,
 				2382F10B27EB28BF001DC415 /* BoxScene.swift */,
-				23110DD427FEFB9D00D354E1 /* GameOverScene.swift */,
 				238C183A27FAF4A200D48093 /* Constants.swift */,
 				23F03D1127ECC90D00D035F6 /* ArcadeGameLogic.swift */,
 				238A42DC27EB7F53002C4B20 /* GridModel.swift */,
@@ -197,7 +194,6 @@
 			files = (
 				2382F10C27EB28BF001DC415 /* BoxScene.swift in Sources */,
 				238C183B27FAF4A200D48093 /* Constants.swift in Sources */,
-				23110DD527FEFB9D00D354E1 /* GameOverScene.swift in Sources */,
 				238228E727EA263600AA3987 /* ElementView.swift in Sources */,
 				238A42DB27EB7C83002C4B20 /* CatModel.swift in Sources */,
 				238A42D727EB7C41002C4B20 /* IngredientModel.swift in Sources */,

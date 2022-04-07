@@ -44,7 +44,7 @@ let firstTierCats: [String: (String, String, String)] = [
     "Wizard Cat": ("It’s so soft it is magical.", "catto-wizard", "scepter"),
     "Cat in the Boot": ("Just a chilling ball of fluff.", "catto-boot", "boot"),
     "Funky Cat": ("These cats are made for dancing!", "catto-funky", "discoball"),
-    "Anti-gravitatory Cat": ("A living feline paradox.", "catto-jam", "bread-jam"),
+    "Anti-gravitational Cat": ("A living feline paradox.", "catto-jam", "bread-jam"),
     "Nuclear Cat": ("Look! It glows in the dark!", "catto-atom", "atom"),
     "Eurekat": ("Such a brilliant kitty.", "catto-eureka", "lightbulb"),
     "Shrekat": ("Kittens are like onions", "catto-shrek", "dirt"),
@@ -68,7 +68,7 @@ let secondTierCats: [String: (String, String, String)] = [
 let thirdTierCats: [String: (String, String, String)] = [
     "Sith Cat": ("Join the fluffy side of the force.", "catto-sith", "sword lightbulb nekonomicon"),
     "Cat Norris": ("On the 7th day, God rested … Cat Norris took over.", "catto-norris", "boots dirt belt"),
-    "The Cat wears Purrrada": ("The coolest and most stylish of all cats.", "catto-prada", "boots discoball belt"),
+    "Purrrada": ("The coolest and most stylish of all cats.", "catto-prada", "boots discoball belt"),
     "Cathulhu": ("A great fluff one, fear it.", "catto-cathulhu", "dirt fish nekonomicon"),
     "Dalai Cat": ("Be fluffy whenever possible. It is always possible.", "catto-dalai", "atom discoball lightbulb")]
 
@@ -87,7 +87,7 @@ let firstLevelQuests: [String: [String]] = [
     "Wizard Cat": ["I have to study some ancient runes but I don't want to do it alone.", "Fireball!", " I need someone that could help me with my homeworks!"],
     "Cat in the boot": ["I only have one leg and a lot of spare shoes!", "I have a snake in my boot!", "I want something to keep my feets warm…"],
     "Funky Cat": ["I just want to party!", "ah-ah-ah-ah stayin alive stayin alive… ", "Let’s have some fun!"],
-    "Anti-gravitatory Cat": ["I'm studying the paradox of physics, do you have something that can help?", "It’s so hot today, do you have a fan or something?", "If only I had something to make my boat go faster…"],
+    "Anti-gravitational Cat": ["I'm studying the paradox of physics, do you have something that can help?", "It’s so hot today, do you have a fan or something?", "If only I had something to make my boat go faster…"],
     "Nuclear Cat": ["I need more energy for my experiments!", "I want a shiny one!", "I want to be easy to find in the dark."],
     "Eurekat": ["I really need an idea…", "I have the solution on the tip of my tongue…", "What do you say when you find the perfect cat?"],
     "Shrekat": ["SOMEbody once told me the world is gonna roll me...", "I love dirty kitties.", "I need a cat that likes donkeys."],
@@ -111,6 +111,6 @@ let secondLevelQuests: [String: [String]] = [
 let thirdLevelQuests: [String: [String]] = [
     "Sith Cat": ["May the force be with you, but make it evil", "What about a Space AntiPaladin?", "I'd love a cat that can take things with telekinesis and throw them on the face of random people!"],
     "Cat Norris": ["I want the strongest cat you have!", "I'm a ranger that loves to walk in Texas", "For the eyes of the ranger are upon you!"],
-    "The Cat wears Purrrada": ["I want the most fabulous cat you have!", "I’ve seen the scariest woman in the world! Her name was ”Miranda”", "Im going to the Fashion week, help me!"],
+    "Purrrada": ["I want the most fabulous cat you have!", "I’ve seen the scariest woman in the world! Her name was ”Miranda”", "Im going to the Fashion week, help me!"],
     "Cathulhu": ["ph'nglui mglw'nafh Cathulhu R'lyeh wgah'nagl fhtagn.", "I just want to destroy the world…", "I keep hearing strange voices from the deep…"],
     "Dalai Cat": ["I wish to reach Nirvana", "I want more clarity in my life", "I just wish for a guide"]]

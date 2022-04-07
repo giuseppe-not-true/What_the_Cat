@@ -19,7 +19,8 @@ class BoxScene: SKScene {
     var solution = ""
     var score = SKLabelNode()
     var timer = SKLabelNode()
-    var message = SKLabelNode()
+    var result = SKLabelNode()
+    var message = SKSpriteNode()
     
     var background = SKSpriteNode(imageNamed: "wall")
     
@@ -30,7 +31,7 @@ class BoxScene: SKScene {
     let backgroundMusic = SKAudioNode(fileNamed: "music.wav")
     
     var gameOver = SKSpriteNode(imageNamed: "vapor-bg")
-    var replayButton = SKSpriteNode(imageNamed: "button")
+    var replayButton = SKSpriteNode(imageNamed: "button - old")
     var replayLabel = SKLabelNode()
     var gameOverScore = SKLabelNode()
     
@@ -79,7 +80,7 @@ class BoxScene: SKScene {
         replayLabel.fontSize = 30
         replayLabel.fontName = "Minecraft"
         
-        score = SKLabelNode(text: "Score: \(gameLogic.currentScore)")
+        score.text = "Score: \(gameLogic.currentScore)"
         score.position = CGPoint(x: self.frame.size.width * 0.1, y: self.frame.size.height*0.85)
         score.zPosition = 15
         score.fontSize = 30
@@ -91,12 +92,22 @@ class BoxScene: SKScene {
         timer.fontSize = 30
         timer.fontName = "Minecraft"
         
-        message = SKLabelNode(text: "WRONG!")
-        message.position = CGPoint(x: self.frame.width/2, y: self.frame.height * 0.25)
+//        message.text = "WRONG!"
+        message.texture = SKTexture(imageNamed: "sign-wrong")
+        message.position = CGPoint(x: self.frame.width/2, y: self.frame.height * 0.3)
         message.alpha = 0
+        message.size.width = 240
+        message.size.height = 80
         message.zPosition = 15
-        message.fontSize = 30
-        message.fontName = "Minecraft"
+//        message.fontSize = 30
+//        message.fontName = "Minecraft"
+        
+        result.text = "Normal cat"
+        result.position = CGPoint(x: self.frame.width/2, y: self.frame.height * 0.7)
+        result.alpha = 0
+        result.zPosition = 15
+        result.fontSize = 30
+        result.fontName = "Minecraft"
         
         boxOpen.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2 - 10)
         boxOpen.zPosition = 10
@@ -137,6 +148,7 @@ class BoxScene: SKScene {
         addChild(score)
         addChild(timer)
         addChild(message)
+        addChild(result)
         addChild(boxOpen)
         addChild(boxClosed)
         addChild(cat)
@@ -179,7 +191,6 @@ class BoxScene: SKScene {
             }
         }
         
-        
         addChild(gameOver)
         addChild(gameOverScore)
         addChild(replayLabel)
@@ -215,6 +226,7 @@ class BoxScene: SKScene {
         }
         
         if gameLogic.isGameOver {
+            gameOverScore.text = "Your score: \(gameLogic.currentScore/31)"
             gameOver.alpha = 1
             gameOverScore.alpha = 1
             replayLabel.alpha = 1
@@ -252,7 +264,7 @@ class BoxScene: SKScene {
                 self.boxClosed.alpha = 1
                 self.cat.alpha = 0
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     self.boxOpen.alpha = 1
                     self.boxClosed.alpha = 0
                     self.resultCat.alpha = 1
@@ -278,47 +290,62 @@ class BoxScene: SKScene {
 
                     if self.solution == self.resultCat.name {
 //                        self.run(self.purrSound)
-                        self.message.text = "PURRRFECT!"
+//                        self.message.text = "PURRRFECT!"
+                        self.message.texture = SKTexture(imageNamed: "sign-purrfect")
+                        self.result.text = "\(self.resultCat.name!)"
                         let fade = SKAction.fadeIn(withDuration: 0.2)
                         self.message.run(fade)
+                        self.result.run(fade)
                         self.updateScore(tier: self.resultCat.tier!)
                         self.cat.texture = ordinaryCattos.randomElement()!
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
                             self.isCombining = false
                             let fade = SKAction.fadeOut(withDuration: 0.1)
                             self.message.run(fade)
+                            self.result.run(fade)
                         }
                     } else if self.resultCat.name == "Cat-astrophe" {
 //                        self.run(self.noCatSound)
-                        self.message.text = "WHAT HAVE YOU DONE..."
+//                        self.message.text = "WHAT HAVE YOU DONE..."
+                        self.message.texture = SKTexture(imageNamed: "sign-wtf")
+                        self.result.text = "\(self.resultCat.name!)"
                         let fade = SKAction.fadeIn(withDuration: 0.1)
                         self.message.run(fade)
-                        self.updateScore(tier: -1)
+                        self.result.run(fade)
+                        if self.gameLogic.currentScore > 0 {
+                            self.updateScore(tier: -1)
+                        }
                         self.cat.texture = ordinaryCattos.randomElement()!
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
                             self.isCombining = false
                             let fade = SKAction.fadeOut(withDuration: 0.1)
                             self.message.run(fade)
+                            self.result.run(fade)
                         }
                     } else {
 //                        self.run(self.errorSound)
+                        self.result.text = "\(self.resultCat.name!)"
                         let fade = SKAction.fadeIn(withDuration: 0.1)
                         self.message.run(fade)
+                        self.result.run(fade)
                         self.cat.texture = ordinaryCattos.randomElement()!
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
                             self.isCombining = false
                             let fade = SKAction.fadeOut(withDuration: 0.1)
                             self.message.run(fade)
+                            self.result.run(fade)
                         }
                     }
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                         self.cat.alpha = 1
                         self.resultCat.alpha = 0
-                        self.message.text = "WRONG!"
+//                        self.message.text = "WRONG!"
+                        self.message.texture = SKTexture(imageNamed: "sign-wrong")
+                        self.result.text = "Normal cat"
                     }
                 }
             }
@@ -337,10 +364,15 @@ class BoxScene: SKScene {
             
             if node.name == "replayLabel" || node.name == "replayButton" {
                 if gameLogic.isGameOver {
-                    gameLogic.isGameOver = false
 //                    updateScore(tier: -gameLogic.currentScore)
-//                    score.text = "Score: \(gameLogic.currentScore)"
                     gameLogic.setUpGame()
+                    score.text = "Score: \(gameLogic.currentScore)"
+                    hasClickClear = true
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        self.hasClickClear = false
+                    }
+                } else {
                 }
             }
         }
@@ -348,8 +380,7 @@ class BoxScene: SKScene {
     
     func updateScore(tier: Int) {
         gameLogic.score(points: tier)
-        score.text = "Score: \(gameLogic.currentScore)"
-        self.resultCat.name = "resultCat"
+        score.text = "Score: \(gameLogic.currentScore/31)"
     }
     
     func changeCatTexture(catTier: Int) {

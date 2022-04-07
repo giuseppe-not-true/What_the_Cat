@@ -22,7 +22,7 @@ struct TopLayout: View {
 //                RoundedRectangle(cornerRadius: 10)
                 Image("button")
                     .resizable()
-                    .frame(width: 500, height: 70, alignment: .center)
+                    .frame(width: 500, height: 80, alignment: .center)
                     .foregroundColor(.accentColor)
                     .overlay {
                         Text(quest)

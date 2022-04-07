@@ -18,16 +18,19 @@ struct MenuView: View {
                 .ignoresSafeArea()
             
             VStack {
-                Text("What the Cat?!")
-                    .foregroundColor(.white)
-                    .font(.custom("Minecraft", size: 70))
+//                Text("What the Cat?!")
+//                    .foregroundColor(.white)
+//                    .font(.custom("Minecraft", size: 70))
+                Image("title")
+                    .resizable()
+                    .scaledToFit()
                 
                 HStack {
                     RoundedRectangle(cornerRadius: 10)
                         .foregroundColor(.clear)
                         .overlay {
                             ZStack {
-                                Image("button")
+                                Image("button - old")
                                     .resizable()
                                 Text("Guess what the customers need in the time frame.")
                                     .foregroundColor(.white)
@@ -40,7 +43,7 @@ struct MenuView: View {
                         .foregroundColor(.clear)
                         .overlay {
                             ZStack {
-                                Image("button")
+                                Image("button - old")
                                     .resizable()
                                 Text("Add up to three elements to the box by tapping them.")
                                     .foregroundColor(.white)
@@ -53,7 +56,7 @@ struct MenuView: View {
                         .foregroundColor(.clear)
                         .overlay {
                             ZStack {
-                                Image("button")
+                                Image("button - old")
                                     .resizable()
                                 Text("Click \"Combine\" to cast the cat.")
                                     .foregroundColor(.white)

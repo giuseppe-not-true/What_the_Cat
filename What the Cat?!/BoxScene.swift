@@ -344,13 +344,6 @@ class BoxScene: SKScene {
         }
     }
     
-//    func createAudioPlayer() {
-//        audioPlayer = SKNode()
-//        audioPlayer.name = "audioPlayer"
-//        self.addChild(audioPlayer)
-//        audioPlayer.addChild(backgroundMusic)
-//    }
-    
     func updateScore(tier: Int) {
         gameLogic.score(points: tier)
         score.text = "Score: \(gameLogic.currentScore)"

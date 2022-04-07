@@ -135,6 +135,7 @@ class BoxScene: SKScene {
         }
         
         addChild(background)
+        addChild(backgroundMusic)
         addChild(score)
         addChild(timer)
         addChild(message)
@@ -279,6 +280,7 @@ class BoxScene: SKScene {
                     self.hasClickClear = true
 
                     if self.solution == self.resultCat.name {
+//                        self.run(self.purrSound)
                         self.message.text = "PURRRFECT!"
                         let fade = SKAction.fadeIn(withDuration: 0.2)
                         self.message.run(fade)
@@ -291,6 +293,7 @@ class BoxScene: SKScene {
                             self.message.run(fade)
                         }
                     } else if self.resultCat.name == "Cat-astrophe" {
+//                        self.run(self.noCatSound)
                         self.message.text = "WHAT HAVE YOU DONE..."
                         let fade = SKAction.fadeIn(withDuration: 0.1)
                         self.message.run(fade)
@@ -303,6 +306,7 @@ class BoxScene: SKScene {
                             self.message.run(fade)
                         }
                     } else {
+//                        self.run(self.errorSound)
                         let fade = SKAction.fadeIn(withDuration: 0.1)
                         self.message.run(fade)
                         self.cat.texture = ordinaryCattos.randomElement()!

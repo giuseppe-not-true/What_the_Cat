@@ -101,8 +101,12 @@
 				238228E827EA278000AA3987 /* TopLayoutView.swift */,
 				238228E627EA263600AA3987 /* ElementView.swift */,
 				D23ECBDE27FF638900A4B0E2 /* SKTAudio.swift */,
+				D23ECBD527FF56DF00A4B0E2 /* cat-error.wav */,
+				D23ECBD827FF56DF00A4B0E2 /* cat-purrfect.wav */,
+				D23ECBD727FF56DF00A4B0E2 /* game-over.wav */,
+				D23ECBDB27FF56DF00A4B0E2 /* not-cat.wav */,
+				D23ECBD927FF56DF00A4B0E2 /* music.wav */,
 				238228D827EA177C00AA3987 /* Fonts */,
-				D23ECBDD27FF56F800A4B0E2 /* Audio */,
 				238228CE27EA13B800AA3987 /* Assets.xcassets */,
 				238228D027EA13B800AA3987 /* Preview Content */,
 			);
@@ -123,18 +127,6 @@
 				238228E427EA1DE100AA3987 /* Minecraft.ttf */,
 			);
 			path = Fonts;
-			sourceTree = "<group>";
-		};
-		D23ECBDD27FF56F800A4B0E2 /* Audio */ = {
-			isa = PBXGroup;
-			children = (
-				D23ECBD527FF56DF00A4B0E2 /* cat-error.wav */,
-				D23ECBD827FF56DF00A4B0E2 /* cat-purrfect.wav */,
-				D23ECBD727FF56DF00A4B0E2 /* game-over.wav */,
-				D23ECBDB27FF56DF00A4B0E2 /* not-cat.wav */,
-				D23ECBD927FF56DF00A4B0E2 /* music.wav */,
-			);
-			path = Audio;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
